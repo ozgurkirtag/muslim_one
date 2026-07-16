@@ -220,6 +220,11 @@ class _FeatureCard extends StatelessWidget {
 
           if (feature.title == 'What Should I Recite?') {
             Navigator.of(context).pushNamed(AppRoutes.recitePrograms);
+            return;
+          }
+
+          if (feature.title == 'Asma ul Husna') {
+            Navigator.of(context).pushNamed(AppRoutes.asmaNames);
           }
         },
         child: Padding(

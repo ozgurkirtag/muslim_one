@@ -5,6 +5,7 @@ import 'core/constants/app_strings.dart';
 import 'core/localization/app_localization.dart';
 import 'core/routes/app_routes.dart';
 import 'core/theme/app_theme.dart';
+import 'screens/asma/asma_names_screen.dart';
 import 'screens/digital_tasbih/digital_tasbih_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/recite/recite_programs_screen.dart';
@@ -47,6 +48,7 @@ class MuslimOneApp extends StatelessWidget {
         AppRoutes.home: (_) => const HomeScreen(),
         AppRoutes.digitalTasbih: (_) => const DigitalTasbihScreen(),
         AppRoutes.recitePrograms: (_) => const ReciteProgramsScreen(),
+        AppRoutes.asmaNames: (_) => const AsmaNamesScreen(),
       },
     );
   }
