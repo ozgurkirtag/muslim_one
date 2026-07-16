@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_strings.dart';
+import '../../core/routes/app_routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -65,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return _FeatureCard(feature: _features[index]);
                 },
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
               ),
             ),
           ],
@@ -211,7 +212,11 @@ class _FeatureCard extends StatelessWidget {
     return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(22),
-        onTap: () {},
+        onTap: () {
+          if (feature.title == 'Digital Tasbih') {
+            Navigator.of(context).pushNamed(AppRoutes.digitalTasbih);
+          }
+        },
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Row(
