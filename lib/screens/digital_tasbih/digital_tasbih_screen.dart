@@ -7,10 +7,12 @@ class DigitalTasbihScreen extends StatefulWidget {
     super.key,
     this.initialDhikrName = 'SubhanAllah',
     this.initialTarget = 33,
+    this.startFresh = false,
   });
 
   final String initialDhikrName;
   final int initialTarget;
+  final bool startFresh;
 
   @override
   State<DigitalTasbihScreen> createState() => _DigitalTasbihScreenState();
@@ -71,15 +73,26 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
     }
 
     setState(() {
-      _count = preferences.getInt(_countKey) ?? 0;
-      _target = preferences.getInt(_targetKey) ?? widget.initialTarget;
+      if (widget.startFresh) {
+        _count = 0;
+        _target = widget.initialTarget;
+        _dhikrName = widget.initialDhikrName;
+      } else {
+        _count = preferences.getInt(_countKey) ?? 0;
+        _target = preferences.getInt(_targetKey) ?? widget.initialTarget;
+        _dhikrName =
+            preferences.getString(_dhikrNameKey) ?? widget.initialDhikrName;
+      }
+
       _soundEnabled = preferences.getBool(_soundKey) ?? true;
       _vibrationEnabled = preferences.getBool(_vibrationKey) ?? true;
-      _dhikrName =
-          preferences.getString(_dhikrNameKey) ?? widget.initialDhikrName;
       _targetMessageShown = _count >= _target;
       _isLoading = false;
     });
+
+    if (widget.startFresh) {
+      await _saveSession();
+    }
   }
 
   Future<void> _saveSession() async {

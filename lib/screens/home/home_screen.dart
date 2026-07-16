@@ -215,6 +215,11 @@ class _FeatureCard extends StatelessWidget {
         onTap: () {
           if (feature.title == 'Digital Tasbih') {
             Navigator.of(context).pushNamed(AppRoutes.digitalTasbih);
+            return;
+          }
+
+          if (feature.title == 'What Should I Recite?') {
+            Navigator.of(context).pushNamed(AppRoutes.recitePrograms);
           }
         },
         child: Padding(
