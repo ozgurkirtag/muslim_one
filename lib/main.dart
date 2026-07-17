@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'controllers/app_locale_controller.dart';
-import 'core/ads/ad_manager.dart';
 import 'core/ads/global_banner_ad.dart';
 import 'core/constants/app_strings.dart';
 import 'core/localization/app_localization.dart';
@@ -40,7 +39,6 @@ class MuslimOneApp extends StatelessWidget {
               ],
             );
           },
-          navigatorObservers: [AdNavigationObserver()],
           title: AppStrings.appName,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.dark,
