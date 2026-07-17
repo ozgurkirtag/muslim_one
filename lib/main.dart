@@ -28,38 +28,38 @@ class MuslimOneApp extends StatelessWidget {
       listenable: AppLocaleController.instance,
       builder: (context, _) {
         return MaterialApp(
-      title: AppStrings.appName,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.dark,
-      supportedLocales: AppLocalization.supportedLocales,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      locale: AppLocaleController.instance.locale,
-      localeResolutionCallback: (locale, supportedLocales) {
-        if (locale == null) {
-          return const Locale('en');
-        }
+          title: AppStrings.appName,
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.dark,
+          supportedLocales: AppLocalization.supportedLocales,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          locale: AppLocaleController.instance.locale,
+          localeResolutionCallback: (locale, supportedLocales) {
+            if (locale == null) {
+              return const Locale('en');
+            }
 
-        for (final supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale.languageCode) {
-            return supportedLocale;
-          }
-        }
+            for (final supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode) {
+                return supportedLocale;
+              }
+            }
 
-        return const Locale('en');
-      },
-      initialRoute: AppRoutes.home,
-      routes: {
-        AppRoutes.home: (_) => const HomeScreen(),
-        AppRoutes.digitalTasbih: (_) => const DigitalTasbihScreen(),
-        AppRoutes.recitePrograms: (_) => const ReciteProgramsScreen(),
-        AppRoutes.asmaNames: (_) => const AsmaNamesScreen(),
-        AppRoutes.dailyDhikr: (_) => const DailyDhikrScreen(),
-        AppRoutes.settings: (_) => const SettingsScreen(),
-      },
+            return const Locale('en');
+          },
+          initialRoute: AppRoutes.home,
+          routes: {
+            AppRoutes.home: (_) => const HomeScreen(),
+            AppRoutes.digitalTasbih: (_) => const DigitalTasbihScreen(),
+            AppRoutes.recitePrograms: (_) => const ReciteProgramsScreen(),
+            AppRoutes.asmaNames: (_) => const AsmaNamesScreen(),
+            AppRoutes.dailyDhikr: (_) => const DailyDhikrScreen(),
+            AppRoutes.settings: (_) => const SettingsScreen(),
+          },
         );
       },
     );

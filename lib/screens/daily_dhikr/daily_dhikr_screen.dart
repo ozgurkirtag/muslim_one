@@ -80,9 +80,7 @@ class DailyDhikrScreen extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(_text(context, _titles)),
-        ),
+        appBar: AppBar(title: Text(_text(context, _titles))),
         bottomNavigationBar: SafeArea(
           minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
           child: FilledButton.icon(
@@ -122,10 +120,7 @@ class DailyDhikrScreen extends StatelessWidget {
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    AppColors.surfaceSoft,
-                    AppColors.surface,
-                  ],
+                  colors: [AppColors.surfaceSoft, AppColors.surface],
                 ),
                 borderRadius: BorderRadius.circular(26),
                 border: Border.all(color: AppColors.goldDark),

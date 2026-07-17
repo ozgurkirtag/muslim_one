@@ -84,9 +84,7 @@ class SettingsScreen extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(_text(context, _titles)),
-        ),
+        appBar: AppBar(title: Text(_text(context, _titles))),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 14, 20, 30),
           children: [
@@ -176,9 +174,7 @@ class _LanguageTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: AppColors.goldDark.withValues(alpha: 0.72),
-        ),
+        border: Border.all(color: AppColors.goldDark.withValues(alpha: 0.72)),
       ),
       child: RadioListTile<String?>(
         value: value,

@@ -349,10 +349,7 @@ class _LogoMark extends StatelessWidget {
 }
 
 class _DailyReminderCard extends StatelessWidget {
-  const _DailyReminderCard({
-    required this.title,
-    required this.reminder,
-  });
+  const _DailyReminderCard({required this.title, required this.reminder});
 
   final String title;
   final String reminder;
@@ -400,10 +397,7 @@ class _DailyReminderCard extends StatelessWidget {
           const SizedBox(height: 8),
           const Text(
             'Quran 94:6',
-            style: TextStyle(
-              color: AppColors.textSecondary,
-              fontSize: 13,
-            ),
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
           ),
         ],
       ),
@@ -447,11 +441,7 @@ class _FeatureCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: AppColors.goldDark),
                 ),
-                child: Icon(
-                  feature.icon,
-                  color: AppColors.goldLight,
-                  size: 27,
-                ),
+                child: Icon(feature.icon, color: AppColors.goldLight, size: 27),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -460,26 +450,23 @@ class _FeatureCard extends StatelessWidget {
                   children: [
                     Text(
                       feature.title,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontSize: 17,
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge?.copyWith(fontSize: 17),
                     ),
                     const SizedBox(height: 5),
                     Text(
                       feature.subtitle,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontSize: 13,
-                            height: 1.35,
-                          ),
+                        fontSize: 13,
+                        height: 1.35,
+                      ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 10),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.gold,
-              ),
+              const Icon(Icons.chevron_right_rounded, color: AppColors.gold),
             ],
           ),
         ),
