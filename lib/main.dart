@@ -20,7 +20,6 @@ import 'screens/settings/settings_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppLocaleController.instance.load();
-  await AdManager.instance.initialize();
   runApp(const MuslimOneApp());
 }
 
