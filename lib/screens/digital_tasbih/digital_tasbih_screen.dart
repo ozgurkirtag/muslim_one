@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
 
 class DigitalTasbihScreen extends StatefulWidget {
   const DigitalTasbihScreen({
@@ -35,6 +39,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
   static const String _dhikrNameKey = 'digital_tasbih_dhikr_name';
 
   final List<int> _presetTargets = const [33, 99, 100, 1000];
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   int _count = 0;
   int _target = 33;
@@ -108,17 +113,27 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
   }
 
   Future<void> _incrementCount() async {
-    if (_vibrationEnabled) {
-      await HapticFeedback.lightImpact();
-    }
-
-    if (_soundEnabled) {
-      await SystemSound.play(SystemSoundType.click);
-    }
-
     setState(() {
       _count++;
     });
+
+    if (_vibrationEnabled) {
+      unawaited(
+        Vibration.vibrate(
+          duration: 50,
+          amplitude: 200,
+        ),
+      );
+    }
+
+    if (_soundEnabled) {
+      unawaited(
+        _audioPlayer.play(
+          AssetSource('sounds/tasbih_tick.wav'),
+          volume: 0.80,
+        ),
+      );
+    }
 
     await _saveSession();
 
@@ -126,7 +141,21 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
       _targetMessageShown = true;
 
       if (_vibrationEnabled) {
-        await HapticFeedback.heavyImpact();
+        unawaited(
+          Vibration.vibrate(
+            pattern: [0, 120, 60, 220],
+            intensities: [0, 210, 0, 255],
+          ),
+        );
+      }
+
+      if (_soundEnabled) {
+        unawaited(
+          _audioPlayer.play(
+            AssetSource('sounds/tasbih_tick.wav'),
+            volume: 0.95,
+          ),
+        );
       }
 
       if (!mounted) {
@@ -381,6 +410,12 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
     });
 
     await _saveSession();
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   @override
