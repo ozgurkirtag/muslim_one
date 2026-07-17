@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -15,20 +16,30 @@ class GlobalBannerAd extends StatefulWidget {
 class _GlobalBannerAdState extends State<GlobalBannerAd> {
   BannerAd? _bannerAd;
   bool _isLoaded = false;
-  bool _loadAttempted = false;
+  bool _isStarting = false;
+  Timer? _startupTimer;
 
   @override
   void initState() {
     super.initState();
 
+    // Önce uygulama arayüzünün tamamen açılmasını bekle.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      unawaited(_initializeAndLoad());
+      if (!mounted) return;
+
+      _startupTimer = Timer(
+        const Duration(seconds: 3),
+        _startAdsSafely,
+      );
     });
   }
 
-  Future<void> _initializeAndLoad() async {
+  Future<void> _startAdsSafely() async {
+    if (!mounted || _isStarting) return;
+
+    _isStarting = true;
+
     try {
-      await Future<void>.delayed(const Duration(milliseconds: 800));
       await AdManager.instance.initializeSafely();
 
       if (!mounted || !AdManager.instance.isInitialized) {
@@ -37,75 +48,70 @@ class _GlobalBannerAdState extends State<GlobalBannerAd> {
 
       _loadBanner();
     } catch (error, stackTrace) {
-      debugPrint('Banner hazırlığı başarısız: $error');
+      debugPrint('Banner güvenli başlatma hatası: $error');
       debugPrintStack(stackTrace: stackTrace);
+    } finally {
+      _isStarting = false;
     }
   }
 
   void _loadBanner() {
-    if (_loadAttempted || !mounted) {
-      return;
-    }
+    if (!mounted || _bannerAd != null) return;
 
-    _loadAttempted = true;
-
-    try {
-      final banner = BannerAd(
-        adUnitId: AdManager.bannerAdUnitId,
-        size: AdSize.banner,
-        request: const AdRequest(),
-        listener: BannerAdListener(
-          onAdLoaded: (ad) {
-            if (!mounted) {
-              ad.dispose();
-              return;
-            }
-
-            setState(() => _isLoaded = true);
-          },
-          onAdFailedToLoad: (ad, error) {
-            debugPrint('Banner yüklenemedi: $error');
+    final banner = BannerAd(
+      adUnitId: AdManager.bannerAdUnitId,
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          if (!mounted) {
             ad.dispose();
-          },
-        ),
-      );
+            return;
+          }
 
-      _bannerAd = banner;
-      banner.load();
-    } catch (error, stackTrace) {
-      debugPrint('Banner oluşturulamadı: $error');
-      debugPrintStack(stackTrace: stackTrace);
-      _bannerAd?.dispose();
-      _bannerAd = null;
-    }
+          setState(() {
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          debugPrint('Banner yüklenemedi: $error');
+          ad.dispose();
+
+          if (!mounted) return;
+
+          setState(() {
+            _bannerAd = null;
+            _isLoaded = false;
+          });
+        },
+      ),
+    );
+
+    _bannerAd = banner;
+    banner.load();
   }
 
   @override
   void dispose() {
+    _startupTimer?.cancel();
     _bannerAd?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ad = _bannerAd;
+    final banner = _bannerAd;
 
-    if (!_isLoaded || ad == null) {
+    if (!_isLoaded || banner == null) {
       return const SizedBox.shrink();
     }
 
     return SafeArea(
       top: false,
       child: SizedBox(
-        width: double.infinity,
-        height: ad.size.height.toDouble(),
-        child: Center(
-          child: SizedBox(
-            width: ad.size.width.toDouble(),
-            height: ad.size.height.toDouble(),
-            child: AdWidget(ad: ad),
-          ),
-        ),
+        width: banner.size.width.toDouble(),
+        height: banner.size.height.toDouble(),
+        child: AdWidget(ad: banner),
       ),
     );
   }
