@@ -316,11 +316,14 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen> {
         );
         _loading = false;
       });
-    } catch (_) {
+    } catch (error, stackTrace) {
+      debugPrint('Prayer times fetch error: $error');
+      debugPrintStack(stackTrace: stackTrace);
+
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _error = _t('retry');
+        _error = error.toString();
       });
     }
   }
