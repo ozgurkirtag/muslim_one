@@ -3,4 +3,6 @@ abstract final class AppRoutes {
   static const String digitalTasbih = '/digital-tasbih';
   static const String recitePrograms = '/recite-programs';
   static const String asmaNames = '/asma-names';
+  static const String dailyDhikr = '/daily-dhikr';
+  static const String settings = '/settings';
 }

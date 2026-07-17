@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'controllers/app_locale_controller.dart';
 import 'core/constants/app_strings.dart';
 import 'core/localization/app_localization.dart';
 import 'core/routes/app_routes.dart';
 import 'core/theme/app_theme.dart';
 import 'screens/asma/asma_names_screen.dart';
+import 'screens/daily_dhikr/daily_dhikr_screen.dart';
 import 'screens/digital_tasbih/digital_tasbih_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/recite/recite_programs_screen.dart';
+import 'screens/settings/settings_screen.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await AppLocaleController.instance.load();
   runApp(const MuslimOneApp());
 }
 
@@ -20,7 +24,10 @@ class MuslimOneApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ListenableBuilder(
+      listenable: AppLocaleController.instance,
+      builder: (context, _) {
+        return MaterialApp(
       title: AppStrings.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark,
@@ -30,6 +37,7 @@ class MuslimOneApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      locale: AppLocaleController.instance.locale,
       localeResolutionCallback: (locale, supportedLocales) {
         if (locale == null) {
           return const Locale('en');
@@ -49,6 +57,10 @@ class MuslimOneApp extends StatelessWidget {
         AppRoutes.digitalTasbih: (_) => const DigitalTasbihScreen(),
         AppRoutes.recitePrograms: (_) => const ReciteProgramsScreen(),
         AppRoutes.asmaNames: (_) => const AsmaNamesScreen(),
+        AppRoutes.dailyDhikr: (_) => const DailyDhikrScreen(),
+        AppRoutes.settings: (_) => const SettingsScreen(),
+      },
+        );
       },
     );
   }
