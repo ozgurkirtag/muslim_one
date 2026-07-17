@@ -81,7 +81,8 @@ class DailyDhikrScreen extends StatelessWidget {
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(title: Text(_text(context, _titles))),
-        bottomNavigationBar: SafeArea(
+        bottomNavigationBar: content.target > 1
+            ? SafeArea(
           minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
           child: FilledButton.icon(
             onPressed: () {
@@ -110,7 +111,8 @@ class DailyDhikrScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )
+            : null,
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
           children: [
@@ -238,7 +240,8 @@ class DailyDhikrScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 18),
-                  Container(
+                  if (content.target > 1)
+                    Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 11,

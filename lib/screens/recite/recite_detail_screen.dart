@@ -19,7 +19,8 @@ class ReciteDetailScreen extends StatelessWidget {
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(title: Text(program.title.resolve(context))),
-        bottomNavigationBar: SafeArea(
+        bottomNavigationBar: content.target > 1
+            ? SafeArea(
           minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
           child: FilledButton.icon(
             onPressed: () {
@@ -50,7 +51,8 @@ class ReciteDetailScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )
+            : null,
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 30),
           children: [
@@ -112,7 +114,8 @@ class ReciteDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            _TargetCard(target: content.target),
+            if (content.target > 1)
+              _TargetCard(target: content.target),
           ],
         ),
       ),
