@@ -9,10 +9,10 @@ class AdManager {
   static final AdManager instance = AdManager._();
 
   static const String bannerAdUnitId =
-      'ca-app-pub-7094485651472008/9126553690';
+      'ca-app-pub-3940256099942544/6300978111';
 
   static const String interstitialAdUnitId =
-      'ca-app-pub-7094485651472008/8979902395';
+      'ca-app-pub-3940256099942544/1033173712';
 
   InterstitialAd? _interstitialAd;
   bool _isInitialized = false;
