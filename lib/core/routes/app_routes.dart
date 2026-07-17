@@ -5,4 +5,5 @@ abstract final class AppRoutes {
   static const String asmaNames = '/asma-names';
   static const String dailyDhikr = '/daily-dhikr';
   static const String settings = '/settings';
+  static const String prayerTimes = '/prayer-times';
 }

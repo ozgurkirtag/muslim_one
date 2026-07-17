@@ -10,6 +10,7 @@ import 'screens/asma/asma_names_screen.dart';
 import 'screens/daily_dhikr/daily_dhikr_screen.dart';
 import 'screens/digital_tasbih/digital_tasbih_screen.dart';
 import 'screens/home/home_screen.dart';
+import 'screens/prayer_times/prayer_times_screen.dart';
 import 'screens/recite/recite_programs_screen.dart';
 import 'screens/settings/settings_screen.dart';
 
@@ -59,6 +60,7 @@ class MuslimOneApp extends StatelessWidget {
             AppRoutes.asmaNames: (_) => const AsmaNamesScreen(),
             AppRoutes.dailyDhikr: (_) => const DailyDhikrScreen(),
             AppRoutes.settings: (_) => const SettingsScreen(),
+            AppRoutes.prayerTimes: (_) => const PrayerTimesScreen(),
           },
         );
       },
