@@ -6,4 +6,5 @@ abstract final class AppRoutes {
   static const String dailyDhikr = '/daily-dhikr';
   static const String settings = '/settings';
   static const String prayerTimes = '/prayer-times';
+  static const String qibla = '/qibla';
 }

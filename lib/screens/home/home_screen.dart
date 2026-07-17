@@ -423,6 +423,8 @@ class _FeatureCard extends StatelessWidget {
               Navigator.of(context).pushNamed(AppRoutes.recitePrograms);
             case 'prayer':
               Navigator.of(context).pushNamed(AppRoutes.prayerTimes);
+            case 'qibla':
+              Navigator.of(context).pushNamed(AppRoutes.qibla);
             case 'asma':
               Navigator.of(context).pushNamed(AppRoutes.asmaNames);
             case 'daily':
