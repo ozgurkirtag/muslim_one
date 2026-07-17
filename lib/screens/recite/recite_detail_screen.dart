@@ -26,6 +26,7 @@ class ReciteDetailScreen extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (_) => DigitalTasbihScreen(
+                    adEntryKey: 'recite-tasbih',
                     initialDhikrName: content.name.resolve(context),
                     initialTarget: content.target,
                     startFresh: true,
