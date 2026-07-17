@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'controllers/app_locale_controller.dart';
-import 'core/ads/global_banner_ad.dart';
 import 'core/constants/app_strings.dart';
 import 'core/localization/app_localization.dart';
 import 'core/routes/app_routes.dart';
@@ -31,14 +30,6 @@ class MuslimOneApp extends StatelessWidget {
       listenable: AppLocaleController.instance,
       builder: (context, _) {
         return MaterialApp(
-          builder: (context, child) {
-            return Column(
-              children: [
-                Expanded(child: child ?? const SizedBox.shrink()),
-                const GlobalBannerAd(),
-              ],
-            );
-          },
           title: AppStrings.appName,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.dark,

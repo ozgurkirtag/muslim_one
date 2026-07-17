@@ -88,7 +88,6 @@ class AsmaNameDetailScreen extends StatelessWidget {
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => DigitalTasbihScreen(
-                  adEntryKey: 'asma-tasbih',
                   initialDhikrName: name.transliteration,
                   initialTarget: 99,
                   startFresh: true,

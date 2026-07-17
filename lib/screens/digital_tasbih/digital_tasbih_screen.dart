@@ -1,4 +1,3 @@
-import '../../core/ads/ad_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,11 +8,9 @@ class DigitalTasbihScreen extends StatefulWidget {
     this.initialDhikrName = 'SubhanAllah',
     this.initialTarget = 33,
     this.startFresh = false,
-    this.adEntryKey = 'digital-tasbih',
   });
 
   final String initialDhikrName;
-  final String adEntryKey;
   final int initialTarget;
   final bool startFresh;
 
@@ -63,10 +60,6 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      AdManager.instance.showSessionAdOnce(widget.adEntryKey);
-    });
     _target = widget.initialTarget;
     _dhikrName = widget.initialDhikrName;
     _loadSavedSession();
