@@ -9,6 +9,9 @@
         android:label="muslim_one"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7094485651472008~4134649682" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
