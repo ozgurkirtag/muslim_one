@@ -71,14 +71,18 @@ class _AsmaNamesScreenState extends State<AsmaNamesScreen> {
   Widget build(BuildContext context) {
     final code = AppLocalization.languageCode(context);
     final isRtl = code == 'ar' || code == 'ur';
-    final normalizedQuery = _query.trim().toLowerCase();
+    final normalizedQuery = AsmaName.normalizeSearch(_query);
+    final allNames = <AsmaName>[featuredAllahName, ...asmaNames];
 
-    final filtered = asmaNames
+    final filtered = allNames
         .where((name) {
           if (normalizedQuery.isEmpty) return true;
+
+          final meaning = AsmaName.normalizeSearch(name.meaning(context));
+
           return name.arabic.contains(_query.trim()) ||
-              name.transliteration.toLowerCase().contains(normalizedQuery) ||
-              name.meaning(context).toLowerCase().contains(normalizedQuery);
+              name.searchableText.contains(normalizedQuery) ||
+              meaning.contains(normalizedQuery);
         })
         .toList(growable: false);
 
@@ -248,14 +252,20 @@ class _NameCard extends StatelessWidget {
                     color: AppColors.gold.withValues(alpha: 0.13),
                     border: Border.all(color: AppColors.goldDark),
                   ),
-                  child: Text(
-                    '${name.number}',
-                    style: const TextStyle(
-                      color: AppColors.goldLight,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
+                  child: name.isFeatured
+                      ? const Icon(
+                          Icons.star_rounded,
+                          color: AppColors.goldLight,
+                          size: 17,
+                        )
+                      : Text(
+                          '${name.number}',
+                          style: const TextStyle(
+                            color: AppColors.goldLight,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
                 ),
               ),
               const Spacer(),
@@ -274,7 +284,7 @@ class _NameCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                name.transliteration,
+                name.displayName(context),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: AppColors.textPrimary,

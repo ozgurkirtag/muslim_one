@@ -21,6 +21,32 @@ class AsmaNameDetailScreen extends StatelessWidget {
     'ur': 'معنی',
     'ru': 'Значение',
   };
+  static const _recommendedCountLabel = {
+    'tr': 'Önerilen Zikir Adedi',
+    'en': 'Suggested Dhikr Count',
+    'ar': 'عدد الذكر المقترح',
+    'fr': 'Nombre de dhikr suggéré',
+    'de': 'Empfohlene Dhikr-Anzahl',
+    'es': 'Cantidad de dhikr sugerida',
+    'id': 'Jumlah Dzikir yang Disarankan',
+    'ms': 'Bilangan Zikir yang Dicadangkan',
+    'ur': 'تجویز کردہ ذکر کی تعداد',
+    'ru': 'Рекомендуемое число зикра',
+  };
+
+  static const _defaultTargetLabel = {
+    'tr': 'Uygulama hedefi',
+    'en': 'App target',
+    'ar': 'هدف التطبيق',
+    'fr': 'Objectif de l’application',
+    'de': 'App-Ziel',
+    'es': 'Objetivo de la aplicación',
+    'id': 'Target aplikasi',
+    'ms': 'Sasaran aplikasi',
+    'ur': 'ایپ کا ہدف',
+    'ru': 'Цель приложения',
+  };
+
   static const _pronunciationLabel = {
     'tr': 'Okunuş',
     'en': 'Pronunciation',
@@ -47,9 +73,9 @@ class AsmaNameDetailScreen extends StatelessWidget {
   };
   static const _note = {
     'tr':
-        '99 hedefi uygulama kolaylığı için önerilir; bu isim için özel ve zorunlu bir sayı iddiası değildir.',
+        'Gösterilen sayılar geleneksel kullanım veya uygulama hedefidir; dini bir zorunluluk değildir.',
     'en':
-        'The target of 99 is an app suggestion for convenience, not a claim of a prescribed count for this name.',
+        'Displayed counts are traditional-use or app targets and are not religious obligations.',
     'ar':
         'العدد 99 اقتراح تنظيمي داخل التطبيق، وليس ادعاءً بوجود عدد واجب خاص بهذا الاسم.',
     'fr':
@@ -81,15 +107,15 @@ class AsmaNameDetailScreen extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        appBar: AppBar(title: Text(name.transliteration)),
+        appBar: AppBar(title: Text(name.displayName(context))),
         bottomNavigationBar: SafeArea(
           minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
           child: FilledButton.icon(
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => DigitalTasbihScreen(
-                  initialDhikrName: name.transliteration,
-                  initialTarget: 99,
+                  initialDhikrName: name.dhikrText(context),
+                  initialTarget: name.recommendedCount ?? 99,
                   startFresh: true,
                 ),
               ),
@@ -131,13 +157,19 @@ class AsmaNameDetailScreen extends StatelessWidget {
                       color: AppColors.gold.withValues(alpha: 0.13),
                       border: Border.all(color: AppColors.goldDark),
                     ),
-                    child: Text(
-                      '${name.number}',
-                      style: const TextStyle(
-                        color: AppColors.goldLight,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
+                    child: name.isFeatured
+                        ? const Icon(
+                            Icons.star_rounded,
+                            color: AppColors.goldLight,
+                            size: 22,
+                          )
+                        : Text(
+                            '${name.number}',
+                            style: const TextStyle(
+                              color: AppColors.goldLight,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                   ),
                   const SizedBox(height: 20),
                   Directionality(
@@ -155,7 +187,7 @@ class AsmaNameDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    name.transliteration,
+                    name.displayName(context),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: AppColors.textPrimary,
@@ -169,7 +201,14 @@ class AsmaNameDetailScreen extends StatelessWidget {
             const SizedBox(height: 14),
             _InfoCard(
               title: _t(context, _pronunciationLabel),
-              value: name.transliteration,
+              value: name.displayName(context),
+            ),
+            const SizedBox(height: 12),
+            _InfoCard(
+              title: _t(context, _recommendedCountLabel),
+              value: name.recommendedCount != null
+                  ? '${name.recommendedCount}'
+                  : '99 (${_t(context, _defaultTargetLabel)})',
             ),
             const SizedBox(height: 12),
             _InfoCard(

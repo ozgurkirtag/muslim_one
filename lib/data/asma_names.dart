@@ -33,6 +33,41 @@ const Map<String, String> _meanings = {
 
 List<String> _parts(String value) => value.trim().split('|');
 
+const AsmaName featuredAllahName = AsmaName(
+  number: 0,
+  arabic: 'الله',
+  transliteration: 'Allah',
+  recommendedCount: 66,
+  isFeatured: true,
+  meanings: {
+    'tr':
+        'Bütün kemal sıfatlarını kendisinde toplayan, ibadete layık tek ilah.',
+    'en': 'The proper name of God, encompassing all perfect attributes.',
+    'ar': 'الاسم الجامع لكل صفات الكمال، والمعبود بحق.',
+    'fr':
+        'Le nom propre de Dieu, réunissant tous les attributs de perfection.',
+    'de':
+        'Der Eigenname Gottes, der alle vollkommenen Eigenschaften umfasst.',
+    'es':
+        'El nombre propio de Dios, que reúne todos los atributos perfectos.',
+    'id': 'Nama khusus Allah yang mencakup seluruh sifat kesempurnaan.',
+    'ms': 'Nama khusus Allah yang merangkumi seluruh sifat kesempurnaan.',
+    'ur': 'اللہ کا ذاتی نام، جو تمام صفاتِ کمال کو جامع ہے۔',
+    'ru':
+        'Собственное имя Бога, объединяющее все совершенные качества.',
+  },
+);
+
+const Map<String, int> _recommendedCountOverrides = {
+  "Al-Bari'": 129,
+  'Al-Fattah': 489,
+};
+
+int? _recommendedCountFor(String transliteration) {
+  return _recommendedCountOverrides[transliteration];
+}
+
+
 final List<AsmaName> asmaNames = (() {
   final arabic = _parts(_arabic);
   final latin = _parts(_latin);
@@ -58,6 +93,7 @@ final List<AsmaName> asmaNames = (() {
       meanings: {
         for (final entry in localized.entries) entry.key: entry.value[index],
       },
+      recommendedCount: _recommendedCountFor(latin[index]),
     );
   }, growable: false);
 })();
