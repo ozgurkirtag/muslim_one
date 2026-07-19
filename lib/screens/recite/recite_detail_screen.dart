@@ -15,11 +15,18 @@ class ReciteDetailScreen extends StatelessWidget {
     final isRtl = AppLocalization.isRtl(context);
     final content = program.content;
 
+    // Kısa zikirler sayaçla tekrar edilebilir.
+    // Uzun dualar yalnızca okuma ekranında gösterilir.
+    final pronunciation = content.pronunciation.resolve(context).trim();
+    final isShortDhikr =
+        content.arabic.trim().length <= 55 &&
+        pronunciation.length <= 65;
+
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(title: Text(program.title.resolve(context))),
-        bottomNavigationBar: content.target > 1
+        bottomNavigationBar: isShortDhikr
             ? SafeArea(
           minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
           child: FilledButton.icon(
@@ -114,7 +121,7 @@ class ReciteDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            if (content.target > 1)
+            if (isShortDhikr)
               _TargetCard(target: content.target),
           ],
         ),
