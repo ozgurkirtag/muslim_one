@@ -6,8 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart';
 
-import '../../core/localization/app_localization.dart';
-
 class DigitalTasbihScreen extends StatefulWidget {
   const DigitalTasbihScreen({
     super.key,
@@ -25,163 +23,6 @@ class DigitalTasbihScreen extends StatefulWidget {
 }
 
 class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
-  static const Map<String, String> _pageTitle = {
-    'tr': 'Dijital Tesbih', 'en': 'Digital Tasbih', 'ar': 'المسبحة الرقمية',
-    'fr': 'Tasbih numérique', 'de': 'Digitaler Tasbih', 'es': 'Tasbih digital',
-    'id': 'Tasbih Digital', 'ms': 'Tasbih Digital', 'ur': 'ڈیجیٹل تسبیح',
-    'ru': 'Цифровой тасбих',
-  };
-  static const Map<String, String> _currentDhikr = {
-    'tr': 'MEVCUT ZİKİR', 'en': 'CURRENT DHIKR', 'ar': 'الذكر الحالي',
-    'fr': 'DHIKR ACTUEL', 'de': 'AKTUELLER DHIKR', 'es': 'DHIKR ACTUAL',
-    'id': 'ZIKIR SAAT INI', 'ms': 'ZIKIR SEMASA', 'ur': 'موجودہ ذکر',
-    'ru': 'ТЕКУЩИЙ ЗИКР',
-  };
-  static const Map<String, String> _count = {
-    'tr': 'SAYAÇ', 'en': 'COUNT', 'ar': 'العدد', 'fr': 'COMPTEUR',
-    'de': 'ZÄHLER', 'es': 'CONTADOR', 'id': 'HITUNGAN', 'ms': 'KIRAAN',
-    'ur': 'تعداد', 'ru': 'СЧЁТЧИК',
-  };
-  static const Map<String, String> _target = {
-    'tr': 'Hedef', 'en': 'Target', 'ar': 'الهدف', 'fr': 'Objectif',
-    'de': 'Ziel', 'es': 'Objetivo', 'id': 'Target', 'ms': 'Sasaran',
-    'ur': 'ہدف', 'ru': 'Цель',
-  };
-  static const Map<String, String> _remaining = {
-    'tr': 'Kalan', 'en': 'Remaining', 'ar': 'المتبقي', 'fr': 'Restant',
-    'de': 'Verbleibend', 'es': 'Restante', 'id': 'Tersisa', 'ms': 'Baki',
-    'ur': 'باقی', 'ru': 'Осталось',
-  };
-  static const Map<String, String> _selectTarget = {
-    'tr': 'HEDEF SEÇ', 'en': 'SELECT TARGET', 'ar': 'اختر الهدف',
-    'fr': 'CHOISIR L’OBJECTIF', 'de': 'ZIEL AUSWÄHLEN',
-    'es': 'ELEGIR OBJETIVO', 'id': 'PILIH TARGET', 'ms': 'PILIH SASARAN',
-    'ur': 'ہدف منتخب کریں', 'ru': 'ВЫБЕРИТЕ ЦЕЛЬ',
-  };
-  static const Map<String, String> _custom = {
-    'tr': 'Özel', 'en': 'Custom', 'ar': 'مخصص', 'fr': 'Personnalisé',
-    'de': 'Benutzerdefiniert', 'es': 'Personalizado', 'id': 'Kustom',
-    'ms': 'Tersuai', 'ur': 'اپنی مرضی', 'ru': 'Другое',
-  };
-  static const Map<String, String> _tap = {
-    'tr': 'DOKUN', 'en': 'TAP', 'ar': 'اضغط', 'fr': 'TOUCHER',
-    'de': 'TIPPEN', 'es': 'TOCAR', 'id': 'KETUK', 'ms': 'KETIK',
-    'ur': 'دبائیں', 'ru': 'НАЖАТЬ',
-  };
-  static const Map<String, String> _toCount = {
-    'tr': 'saymak için', 'en': 'to count', 'ar': 'للعد',
-    'fr': 'pour compter', 'de': 'zum Zählen', 'es': 'para contar',
-    'id': 'untuk menghitung', 'ms': 'untuk mengira', 'ur': 'گننے کے لیے',
-    'ru': 'для подсчёта',
-  };
-  static const Map<String, String> _vibration = {
-    'tr': 'Titreşim', 'en': 'Vibration', 'ar': 'الاهتزاز', 'fr': 'Vibration',
-    'de': 'Vibration', 'es': 'Vibración', 'id': 'Getaran', 'ms': 'Getaran',
-    'ur': 'وائبریشن', 'ru': 'Вибрация',
-  };
-  static const Map<String, String> _sound = {
-    'tr': 'Ses', 'en': 'Sound', 'ar': 'الصوت', 'fr': 'Son', 'de': 'Ton',
-    'es': 'Sonido', 'id': 'Suara', 'ms': 'Bunyi', 'ur': 'آواز', 'ru': 'Звук',
-  };
-  static const Map<String, String> _reset = {
-    'tr': 'Sıfırla', 'en': 'Reset', 'ar': 'إعادة ضبط', 'fr': 'Réinitialiser',
-    'de': 'Zurücksetzen', 'es': 'Restablecer', 'id': 'Atur Ulang',
-    'ms': 'Tetapkan Semula', 'ur': 'ری سیٹ', 'ru': 'Сбросить',
-  };
-  static const Map<String, String> _continue = {
-    'tr': 'Devam Et', 'en': 'Continue', 'ar': 'متابعة', 'fr': 'Continuer',
-    'de': 'Fortfahren', 'es': 'Continuar', 'id': 'Lanjutkan', 'ms': 'Teruskan',
-    'ur': 'جاری رکھیں', 'ru': 'Продолжить',
-  };
-  static const Map<String, String> _customTarget = {
-    'tr': 'Özel Hedef', 'en': 'Custom Target', 'ar': 'هدف مخصص',
-    'fr': 'Objectif personnalisé', 'de': 'Benutzerdefiniertes Ziel',
-    'es': 'Objetivo personalizado', 'id': 'Target Kustom',
-    'ms': 'Sasaran Tersuai', 'ur': 'اپنی مرضی کا ہدف', 'ru': 'Своя цель',
-  };
-  static const Map<String, String> _enterTarget = {
-    'tr': 'Hedef sayısını gir', 'en': 'Enter a target',
-    'ar': 'أدخل العدد المستهدف', 'fr': 'Saisissez un objectif',
-    'de': 'Ziel eingeben', 'es': 'Introduce un objetivo',
-    'id': 'Masukkan target', 'ms': 'Masukkan sasaran',
-    'ur': 'ہدف درج کریں', 'ru': 'Введите цель',
-  };
-  static const Map<String, String> _setTarget = {
-    'tr': 'Hedefi Ayarla', 'en': 'Set Target', 'ar': 'تعيين الهدف',
-    'fr': 'Définir l’objectif', 'de': 'Ziel festlegen',
-    'es': 'Establecer objetivo', 'id': 'Atur Target',
-    'ms': 'Tetapkan Sasaran', 'ur': 'ہدف مقرر کریں', 'ru': 'Установить цель',
-  };
-  static const Map<String, String> _dhikrName = {
-    'tr': 'Zikir Adı', 'en': 'Dhikr Name', 'ar': 'اسم الذكر',
-    'fr': 'Nom du dhikr', 'de': 'Name des Dhikr', 'es': 'Nombre del dhikr',
-    'id': 'Nama Zikir', 'ms': 'Nama Zikir', 'ur': 'ذکر کا نام',
-    'ru': 'Название зикра',
-  };
-  static const Map<String, String> _dhikrExample = {
-    'tr': 'Örnek: Sübhanallah', 'en': 'Example: SubhanAllah',
-    'ar': 'مثال: سبحان الله', 'fr': 'Exemple : SubhanAllah',
-    'de': 'Beispiel: SubhanAllah', 'es': 'Ejemplo: SubhanAllah',
-    'id': 'Contoh: SubhanAllah', 'ms': 'Contoh: SubhanAllah',
-    'ur': 'مثال: سبحان اللہ', 'ru': 'Пример: Субханаллах',
-  };
-  static const Map<String, String> _save = {
-    'tr': 'Kaydet', 'en': 'Save', 'ar': 'حفظ', 'fr': 'Enregistrer',
-    'de': 'Speichern', 'es': 'Guardar', 'id': 'Simpan', 'ms': 'Simpan',
-    'ur': 'محفوظ کریں', 'ru': 'Сохранить',
-  };
-  static const Map<String, String> _cancel = {
-    'tr': 'İptal', 'en': 'Cancel', 'ar': 'إلغاء', 'fr': 'Annuler',
-    'de': 'Abbrechen', 'es': 'Cancelar', 'id': 'Batal', 'ms': 'Batal',
-    'ur': 'منسوخ', 'ru': 'Отмена',
-  };
-  static const Map<String, String> _resetQuestion = {
-    'tr': 'Sayaç sıfırlansın mı?', 'en': 'Reset Counter?',
-    'ar': 'هل تريد إعادة ضبط العداد؟', 'fr': 'Réinitialiser le compteur ?',
-    'de': 'Zähler zurücksetzen?', 'es': '¿Restablecer el contador?',
-    'id': 'Atur ulang penghitung?', 'ms': 'Tetapkan semula kiraan?',
-    'ur': 'کاؤنٹر ری سیٹ کریں؟', 'ru': 'Сбросить счётчик?',
-  };
-  static const Map<String, String> _resetInfo = {
-    'tr': 'Mevcut sayım sıfıra dönecek.',
-    'en': 'Your current count will return to zero.',
-    'ar': 'سيعود العدد الحالي إلى الصفر.',
-    'fr': 'Votre compteur actuel reviendra à zéro.',
-    'de': 'Der aktuelle Zähler wird auf null gesetzt.',
-    'es': 'El contador actual volverá a cero.',
-    'id': 'Hitungan saat ini akan kembali ke nol.',
-    'ms': 'Kiraan semasa akan kembali kepada sifar.',
-    'ur': 'موجودہ تعداد صفر ہو جائے گی۔',
-    'ru': 'Текущий счёт вернётся к нулю.',
-  };
-  static const Map<String, String> _targetCompleted = {
-    'tr': 'Hedef tamamlandı. Allah zikrinizi kabul etsin.',
-    'en': 'Target completed. May Allah accept your dhikr.',
-    'ar': 'اكتمل الهدف. تقبل الله ذكرك.',
-    'fr': 'Objectif atteint. Qu’Allah accepte votre dhikr.',
-    'de': 'Ziel erreicht. Möge Allah deinen Dhikr annehmen.',
-    'es': 'Objetivo completado. Que Allah acepte tu dhikr.',
-    'id': 'Target selesai. Semoga Allah menerima zikirmu.',
-    'ms': 'Sasaran selesai. Semoga Allah menerima zikir anda.',
-    'ur': 'ہدف مکمل ہوا۔ اللہ آپ کا ذکر قبول فرمائے۔',
-    'ru': 'Цель достигнута. Пусть Аллах примет ваш зикр.',
-  };
-  static const Map<String, String> _advertisement = {
-    'tr': 'REKLAM', 'en': 'ADVERTISEMENT', 'ar': 'إعلان',
-    'fr': 'PUBLICITÉ', 'de': 'WERBUNG', 'es': 'PUBLICIDAD',
-    'id': 'IKLAN', 'ms': 'IKLAN', 'ur': 'اشتہار', 'ru': 'РЕКЛАМА',
-  };
-  static const Map<String, String> _bannerSpace = {
-    'tr': 'Banner reklam alanı', 'en': 'Banner ad space',
-    'ar': 'مساحة إعلان بانر', 'fr': 'Espace publicitaire',
-    'de': 'Banner-Werbefläche', 'es': 'Espacio para banner',
-    'id': 'Ruang iklan banner', 'ms': 'Ruang iklan sepanduk',
-    'ur': 'بینر اشتہار کی جگہ', 'ru': 'Место для баннера',
-  };
-
-  String _text(BuildContext context, Map<String, String> values) {
-    return AppLocalization.text(context, values);
-  }
   static const Color _background = Color(0xFF090909);
   static const Color _surface = Color(0xFF151515);
   static const Color _surfaceSoft = Color(0xFF1E1E1E);
@@ -327,12 +168,12 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
           SnackBar(
             backgroundColor: _surfaceSoft,
             behavior: SnackBarBehavior.floating,
-            content: Text(
-              _text(context, _targetCompleted),
-              style: const TextStyle(color: _textPrimary),
+            content: const Text(
+              'Target completed. May Allah accept your dhikr.',
+              style: TextStyle(color: _textPrimary),
             ),
             action: SnackBarAction(
-              label: _text(context, _continue),
+              label: 'Continue',
               textColor: _goldLight,
               onPressed: () {},
             ),
@@ -360,9 +201,9 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
       builder: (dialogContext) {
         return AlertDialog(
           backgroundColor: _surface,
-          title: Text(
-            _text(context, _customTarget),
-            style: const TextStyle(color: _textPrimary),
+          title: const Text(
+            'Custom Target',
+            style: TextStyle(color: _textPrimary),
           ),
           content: TextField(
             controller: controller,
@@ -374,7 +215,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
               LengthLimitingTextInputFormatter(6),
             ],
             decoration: InputDecoration(
-              hintText: _text(context, _enterTarget),
+              hintText: 'Enter a target',
               hintStyle: const TextStyle(color: _textSecondary),
               filled: true,
               fillColor: _surfaceSoft,
@@ -398,9 +239,9 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: Text(
-                _text(context, _cancel),
-                style: const TextStyle(color: _textSecondary),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: _textSecondary),
               ),
             ),
             FilledButton(
@@ -415,7 +256,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                   Navigator.of(dialogContext).pop(value);
                 }
               },
-              child: Text(_text(context, _setTarget)),
+              child: const Text('Set Target'),
             ),
           ],
         );
@@ -437,9 +278,9 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
       builder: (dialogContext) {
         return AlertDialog(
           backgroundColor: _surface,
-          title: Text(
-            _text(context, _dhikrName),
-            style: const TextStyle(color: _textPrimary),
+          title: const Text(
+            'Dhikr Name',
+            style: TextStyle(color: _textPrimary),
           ),
           content: TextField(
             controller: controller,
@@ -448,7 +289,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
             maxLength: 40,
             style: const TextStyle(color: _textPrimary),
             decoration: InputDecoration(
-              hintText: _text(context, _dhikrExample),
+              hintText: 'Example: SubhanAllah',
               hintStyle: const TextStyle(color: _textSecondary),
               counterStyle: const TextStyle(color: _textSecondary),
               filled: true,
@@ -473,9 +314,9 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: Text(
-                _text(context, _cancel),
-                style: const TextStyle(color: _textSecondary),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: _textSecondary),
               ),
             ),
             FilledButton(
@@ -490,7 +331,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                   Navigator.of(dialogContext).pop(value);
                 }
               },
-              child: Text(_text(context, _save)),
+              child: const Text('Save'),
             ),
           ],
         );
@@ -514,20 +355,20 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
       builder: (dialogContext) {
         return AlertDialog(
           backgroundColor: _surface,
-          title: Text(
-            _text(context, _resetQuestion),
-            style: const TextStyle(color: _textPrimary),
+          title: const Text(
+            'Reset Counter?',
+            style: TextStyle(color: _textPrimary),
           ),
-          content: Text(
-            _text(context, _resetInfo),
-            style: const TextStyle(color: _textSecondary),
+          content: const Text(
+            'Your current count will return to zero.',
+            style: TextStyle(color: _textSecondary),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: Text(
-                _text(context, _cancel),
-                style: const TextStyle(color: _textSecondary),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: _textSecondary),
               ),
             ),
             FilledButton(
@@ -536,7 +377,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                 foregroundColor: Colors.black,
               ),
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: Text(_text(context, _reset)),
+              child: const Text('Reset'),
             ),
           ],
         );
@@ -586,13 +427,13 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
         foregroundColor: _textPrimary,
         elevation: 0,
         centerTitle: true,
-        title: Text(
-          _text(context, _pageTitle),
-          style: const TextStyle(fontWeight: FontWeight.w700, letterSpacing: 0.3),
+        title: const Text(
+          'Digital Tasbih',
+          style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 0.3),
         ),
         actions: [
           IconButton(
-            tooltip: _text(context, _reset),
+            tooltip: 'Reset',
             onPressed: _confirmReset,
             icon: const Icon(Icons.refresh_rounded),
           ),
@@ -657,8 +498,8 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    _text(context, _currentDhikr),
+                  const Text(
+                    'CURRENT DHIKR',
                     style: TextStyle(
                       color: _textSecondary,
                       fontSize: 11,
@@ -703,8 +544,8 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
       ),
       child: Column(
         children: [
-          Text(
-            _text(context, _count),
+          const Text(
+            'COUNT',
             style: TextStyle(
               color: _textSecondary,
               fontSize: 12,
@@ -745,7 +586,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${_text(context, _target)}: $_target',
+                'Target: $_target',
                 style: const TextStyle(
                   color: _textSecondary,
                   fontSize: 13,
@@ -753,7 +594,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                 ),
               ),
               Text(
-                '${_text(context, _remaining)}: $_remaining',
+                'Remaining: $_remaining',
                 style: const TextStyle(
                   color: _textSecondary,
                   fontSize: 13,
@@ -771,10 +612,10 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 2),
+        const Padding(
+          padding: EdgeInsets.only(left: 2),
           child: Text(
-            _text(context, _selectTarget),
+            'SELECT TARGET',
             style: TextStyle(
               color: _textSecondary,
               fontSize: 11,
@@ -828,7 +669,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
         size: 17,
         color: isCustom ? Colors.black : _goldLight,
       ),
-      label: Text(isCustom ? '$_target' : _text(context, _custom)),
+      label: Text(isCustom ? '$_target' : 'Custom'),
       onSelected: (_) => _showCustomTargetDialog(),
       backgroundColor: _surface,
       selectedColor: _gold,
@@ -846,7 +687,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
   Widget _buildTapButton() {
     return Semantics(
       button: true,
-      label: _text(context, _pageTitle),
+      label: 'Count dhikr',
       child: GestureDetector(
         onTap: _incrementCount,
         child: Container(
@@ -877,7 +718,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
               color: Colors.black.withValues(alpha: 0.12),
               border: Border.all(color: Colors.black.withValues(alpha: 0.18)),
             ),
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.touch_app_rounded, color: Colors.black, size: 46),
@@ -893,8 +734,8 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  _text(context, _toCount),
-                  style: const TextStyle(
+                  'to count',
+                  style: TextStyle(
                     color: Colors.black87,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
@@ -916,7 +757,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
             icon: _vibrationEnabled
                 ? Icons.vibration_rounded
                 : Icons.phone_android_rounded,
-            label: _text(context, _vibration),
+            label: 'Vibration',
             enabled: _vibrationEnabled,
             onTap: _toggleVibration,
           ),
@@ -927,7 +768,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
             icon: _soundEnabled
                 ? Icons.volume_up_rounded
                 : Icons.volume_off_rounded,
-            label: _text(context, _sound),
+            label: 'Sound',
             enabled: _soundEnabled,
             onTap: _toggleSound,
           ),
@@ -936,7 +777,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
         Expanded(
           child: _buildControlButton(
             icon: Icons.refresh_rounded,
-            label: _text(context, _reset),
+            label: 'Reset',
             enabled: false,
             onTap: _confirmReset,
           ),
@@ -991,7 +832,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
         color: _surface,
         border: Border(top: BorderSide(color: _goldDark, width: 0.6)),
       ),
-      child: Column(
+      child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
@@ -1005,8 +846,8 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
           ),
           SizedBox(height: 4),
           Text(
-            _text(context, _bannerSpace),
-            style: const TextStyle(color: _textSecondary, fontSize: 12),
+            'Banner ad space',
+            style: TextStyle(color: _textSecondary, fontSize: 12),
           ),
         ],
       ),
