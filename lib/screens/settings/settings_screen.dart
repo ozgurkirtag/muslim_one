@@ -4,6 +4,7 @@ import '../../controllers/app_locale_controller.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/localization/app_localization.dart';
 
+import '../../widgets/banner_ad_widget.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -84,6 +85,10 @@ class SettingsScreen extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
+        bottomNavigationBar: const SafeArea(
+          top: false,
+          child: BannerAdWidget(),
+        ),
         appBar: AppBar(title: Text(_text(context, _titles))),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 14, 20, 30),

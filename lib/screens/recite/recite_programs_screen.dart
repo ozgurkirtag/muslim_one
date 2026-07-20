@@ -6,6 +6,7 @@ import '../../data/dhikr_programs.dart';
 import '../../models/dhikr_program.dart';
 import 'recite_detail_screen.dart';
 
+import '../../widgets/banner_ad_widget.dart';
 class ReciteProgramsScreen extends StatelessWidget {
   const ReciteProgramsScreen({super.key});
 
@@ -16,6 +17,10 @@ class ReciteProgramsScreen extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
+        bottomNavigationBar: const SafeArea(
+          top: false,
+          child: BannerAdWidget(),
+        ),
         appBar: AppBar(
           title: Text(AppLocalization.text(context, AppLocalization.pageTitle)),
         ),

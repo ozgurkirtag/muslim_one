@@ -5,6 +5,7 @@ import '../../core/constants/app_strings.dart';
 import '../../core/localization/app_localization.dart';
 import '../../core/routes/app_routes.dart';
 
+import '../../widgets/banner_ad_widget.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -207,6 +208,10 @@ class HomeScreen extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
+        bottomNavigationBar: const SafeArea(
+          top: false,
+          child: BannerAdWidget(),
+        ),
         body: SafeArea(
           child: CustomScrollView(
             slivers: [

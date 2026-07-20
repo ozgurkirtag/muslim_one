@@ -6,6 +6,7 @@ import '../../data/dhikr_programs.dart';
 import '../../models/dhikr_program.dart';
 import '../digital_tasbih/digital_tasbih_screen.dart';
 
+import '../../widgets/banner_ad_widget.dart';
 class DailyDhikrScreen extends StatelessWidget {
   const DailyDhikrScreen({super.key});
 
@@ -80,6 +81,10 @@ class DailyDhikrScreen extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
+        bottomNavigationBar: const SafeArea(
+          top: false,
+          child: BannerAdWidget(),
+        ),
         appBar: AppBar(title: Text(_text(context, _titles))),
         bottomNavigationBar: content.target > 1
             ? SafeArea(

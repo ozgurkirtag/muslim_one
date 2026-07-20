@@ -6,6 +6,7 @@ import '../../data/asma_names.dart';
 import '../../models/asma_name.dart';
 import 'asma_name_detail_screen.dart';
 
+import '../../widgets/banner_ad_widget.dart';
 class AsmaNamesScreen extends StatefulWidget {
   const AsmaNamesScreen({super.key});
 
@@ -89,6 +90,10 @@ class _AsmaNamesScreenState extends State<AsmaNamesScreen> {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
+        bottomNavigationBar: const SafeArea(
+          top: false,
+          child: BannerAdWidget(),
+        ),
         appBar: AppBar(title: Text(_t(_titles))),
         body: CustomScrollView(
           slivers: [

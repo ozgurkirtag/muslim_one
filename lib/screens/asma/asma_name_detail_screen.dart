@@ -5,6 +5,7 @@ import '../../core/localization/app_localization.dart';
 import '../../models/asma_name.dart';
 import '../digital_tasbih/digital_tasbih_screen.dart';
 
+import '../../widgets/banner_ad_widget.dart';
 class AsmaNameDetailScreen extends StatelessWidget {
   const AsmaNameDetailScreen({required this.name, super.key});
   final AsmaName name;
@@ -108,7 +109,10 @@ class AsmaNameDetailScreen extends StatelessWidget {
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(title: Text(name.displayName(context))),
-        bottomNavigationBar: SafeArea(
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SafeArea(
           minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
           child: FilledButton.icon(
             onPressed: () => Navigator.of(context).push(
@@ -135,6 +139,9 @@ class AsmaNameDetailScreen extends StatelessWidget {
               ),
             ),
           ),
+        ),
+            const BannerAdWidget(),
+          ],
         ),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 30),

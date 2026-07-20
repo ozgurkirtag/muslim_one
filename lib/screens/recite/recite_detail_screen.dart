@@ -5,6 +5,7 @@ import '../../core/localization/app_localization.dart';
 import '../../models/dhikr_program.dart';
 import '../digital_tasbih/digital_tasbih_screen.dart';
 
+import '../../widgets/banner_ad_widget.dart';
 class ReciteDetailScreen extends StatelessWidget {
   const ReciteDetailScreen({required this.program, super.key});
 
@@ -26,8 +27,11 @@ class ReciteDetailScreen extends StatelessWidget {
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(title: Text(program.title.resolve(context))),
-        bottomNavigationBar: isShortDhikr
-            ? SafeArea(
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isShortDhikr)
+              SafeArea(
           minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
           child: FilledButton.icon(
             onPressed: () {
@@ -58,8 +62,10 @@ class ReciteDetailScreen extends StatelessWidget {
               ),
             ),
           ),
-        )
-            : null,
+        ),
+            const BannerAdWidget(),
+          ],
+        ),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 30),
           children: [

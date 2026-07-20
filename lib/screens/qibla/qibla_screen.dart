@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/localization/app_localization.dart';
 
+import '../../widgets/banner_ad_widget.dart';
 class QiblaScreen extends StatefulWidget {
   const QiblaScreen({super.key});
 
@@ -370,6 +371,10 @@ class _QiblaScreenState extends State<QiblaScreen> {
     return Directionality(
       textDirection: rtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
+        bottomNavigationBar: const SafeArea(
+          top: false,
+          child: BannerAdWidget(),
+        ),
         appBar: AppBar(title: Text(_t('title'))),
         body: _loading
             ? _LoadingView(text: _t('finding'))

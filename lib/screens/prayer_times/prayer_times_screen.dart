@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/localization/app_localization.dart';
 
+import '../../widgets/banner_ad_widget.dart';
 class PrayerTimesScreen extends StatefulWidget {
   const PrayerTimesScreen({super.key});
 
@@ -456,6 +457,10 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen> {
           ? TextDirection.rtl
           : TextDirection.ltr,
       child: Scaffold(
+        bottomNavigationBar: const SafeArea(
+          top: false,
+          child: BannerAdWidget(),
+        ),
         appBar: AppBar(
           title: Text(_t('title')),
           actions: [
