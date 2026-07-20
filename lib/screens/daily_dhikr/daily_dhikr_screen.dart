@@ -81,13 +81,12 @@ class DailyDhikrScreen extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        bottomNavigationBar: const SafeArea(
-          top: false,
-          child: BannerAdWidget(),
-        ),
         appBar: AppBar(title: Text(_text(context, _titles))),
-        bottomNavigationBar: content.target > 1
-            ? SafeArea(
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (content.target > 1)
+              SafeArea(
           minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
           child: FilledButton.icon(
             onPressed: () {
@@ -117,7 +116,10 @@ class DailyDhikrScreen extends StatelessWidget {
             ),
           ),
         )
-            : null,
+            ,
+            const BannerAdWidget(),
+          ],
+        ),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
           children: [
