@@ -43,8 +43,6 @@ dependencies:
   flutter_compass: ^0.8.1
   vibration: ^3.2.0
   audioplayers: ^6.8.0
-  google_mobile_ads: ^9.0.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

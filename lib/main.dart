@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'controllers/app_locale_controller.dart';
 import 'core/constants/app_strings.dart';
@@ -19,11 +18,7 @@ import 'screens/settings/settings_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Future.wait([
-    AppLocaleController.instance.load(),
-    MobileAds.instance.initialize(),
-  ]);
-
+  await AppLocaleController.instance.load();
   runApp(const MuslimOneApp());
 }
 
