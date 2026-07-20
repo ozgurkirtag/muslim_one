@@ -15,7 +15,6 @@ import 'screens/prayer_times/prayer_times_screen.dart';
 import 'screens/qibla/qibla_screen.dart';
 import 'screens/recite/recite_programs_screen.dart';
 import 'screens/settings/settings_screen.dart';
-import 'widgets/global_banner_ad.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,16 +45,6 @@ class MuslimOneApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          builder: (context, child) {
-            return Column(
-              children: [
-                Expanded(
-                  child: child ?? const SizedBox.shrink(),
-                ),
-                const GlobalBannerAd(),
-              ],
-            );
-          },
           locale: AppLocaleController.instance.locale,
           localeResolutionCallback: (locale, supportedLocales) {
             if (locale == null) {
