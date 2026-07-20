@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart';
+import '../../widgets/banner_ad_widget.dart';
 
 class DigitalTasbihScreen extends StatefulWidget {
   const DigitalTasbihScreen({
@@ -824,33 +825,9 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
   }
 
   Widget _buildBannerPlaceholder() {
-    return Container(
-      width: double.infinity,
-      height: 64,
-      alignment: Alignment.center,
-      decoration: const BoxDecoration(
-        color: _surface,
-        border: Border(top: BorderSide(color: _goldDark, width: 0.6)),
-      ),
-      child: const Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'ADVERTISEMENT',
-            style: TextStyle(
-              color: _textSecondary,
-              fontSize: 9,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.5,
-            ),
-          ),
-          SizedBox(height: 4),
-          Text(
-            'Banner ad space',
-            style: TextStyle(color: _textSecondary, fontSize: 12),
-          ),
-        ],
-      ),
+    return const SafeArea(
+      top: false,
+      child: BannerAdWidget(),
     );
   }
 }

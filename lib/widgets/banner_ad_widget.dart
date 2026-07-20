@@ -10,8 +10,8 @@ class BannerAdWidget extends StatefulWidget {
 }
 
 class _BannerAdWidgetState extends State<BannerAdWidget> {
-  static const String _testBannerId =
-      'ca-app-pub-3940256099942544/6300978111';
+  static const String _bannerId =
+      'ca-app-pub-7094485651472008/9126553690';
 
   BannerAd? _bannerAd;
   bool _loaded = false;
@@ -22,7 +22,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
 
     if (!kIsWeb) {
       _bannerAd = BannerAd(
-        adUnitId: _testBannerId,
+        adUnitId: _bannerId,
         size: AdSize.banner,
         request: const AdRequest(),
         listener: BannerAdListener(
