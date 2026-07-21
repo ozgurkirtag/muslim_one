@@ -200,4 +200,175 @@ abstract final class AppLocalization {
     'ru':
         'Если в источнике не указано точное число, цель является лишь рекомендацией приложения.',
   };
+
+
+  static const Map<String, String> digitalTasbihTitle = {
+    'tr': 'Dijital Tesbih',
+    'en': 'Digital Tasbih',
+    'ar': 'المسبحة الرقمية',
+    'fr': 'Tasbih numérique',
+    'de': 'Digitaler Tasbih',
+    'es': 'Tasbih digital',
+    'id': 'Tasbih Digital',
+    'ms': 'Tasbih Digital',
+    'ur': 'ڈیجیٹل تسبیح',
+    'ru': 'Цифровой тасбих',
+  };
+
+  static const Map<String, String> currentDhikr = {
+    'tr': 'MEVCUT ZİKİR',
+    'en': 'CURRENT DHIKR',
+    'ar': 'الذكر الحالي',
+    'fr': 'DHIKR ACTUEL',
+    'de': 'AKTUELLER DHIKR',
+    'es': 'DHIKR ACTUAL',
+    'id': 'ZIKIR SAAT INI',
+    'ms': 'ZIKIR SEMASA',
+    'ur': 'موجودہ ذکر',
+    'ru': 'ТЕКУЩИЙ ЗИКР',
+  };
+
+  static const Map<String, String> tasbihCount = {
+    'tr': 'SAYAÇ',
+    'en': 'COUNT',
+    'ar': 'العدد',
+    'fr': 'COMPTEUR',
+    'de': 'ZÄHLER',
+    'es': 'CONTADOR',
+    'id': 'HITUNGAN',
+    'ms': 'KIRAAN',
+    'ur': 'تعداد',
+    'ru': 'СЧЁТЧИК',
+  };
+
+  static const Map<String, String> selectTarget = {
+    'tr': 'HEDEF SEÇ',
+    'en': 'SELECT TARGET',
+    'ar': 'اختر الهدف',
+    'fr': 'CHOISIR L’OBJECTIF',
+    'de': 'ZIEL AUSWÄHLEN',
+    'es': 'SELECCIONAR OBJETIVO',
+    'id': 'PILIH TARGET',
+    'ms': 'PILIH SASARAN',
+    'ur': 'ہدف منتخب کریں',
+    'ru': 'ВЫБЕРИТЕ ЦЕЛЬ',
+  };
+
+  static const Map<String, String> customTarget = {
+    'tr': 'Özel',
+    'en': 'Custom',
+    'ar': 'مخصص',
+    'fr': 'Personnalisé',
+    'de': 'Benutzerdefiniert',
+    'es': 'Personalizado',
+    'id': 'Khusus',
+    'ms': 'Tersuai',
+    'ur': 'حسب ضرورت',
+    'ru': 'Другое',
+  };
+
+  static const Map<String, String> tap = {
+    'tr': 'DOKUN',
+    'en': 'TAP',
+    'ar': 'اضغط',
+    'fr': 'APPUYEZ',
+    'de': 'TIPPEN',
+    'es': 'TOCA',
+    'id': 'KETUK',
+    'ms': 'KETIK',
+    'ur': 'دبائیں',
+    'ru': 'НАЖМИТЕ',
+  };
+
+  static const Map<String, String> toCount = {
+    'tr': 'saymak için',
+    'en': 'to count',
+    'ar': 'للعد',
+    'fr': 'pour compter',
+    'de': 'zum Zählen',
+    'es': 'para contar',
+    'id': 'untuk menghitung',
+    'ms': 'untuk mengira',
+    'ur': 'گننے کے لیے',
+    'ru': 'для подсчёта',
+  };
+
+  static const Map<String, String> vibration = {
+    'tr': 'Titreşim',
+    'en': 'Vibration',
+    'ar': 'الاهتزاز',
+    'fr': 'Vibration',
+    'de': 'Vibration',
+    'es': 'Vibración',
+    'id': 'Getaran',
+    'ms': 'Getaran',
+    'ur': 'وائبریشن',
+    'ru': 'Вибрация',
+  };
+
+  static const Map<String, String> sound = {
+    'tr': 'Ses',
+    'en': 'Sound',
+    'ar': 'الصوت',
+    'fr': 'Son',
+    'de': 'Ton',
+    'es': 'Sonido',
+    'id': 'Suara',
+    'ms': 'Bunyi',
+    'ur': 'آواز',
+    'ru': 'Звук',
+  };
+
+  static const Map<String, String> reset = {
+    'tr': 'Sıfırla',
+    'en': 'Reset',
+    'ar': 'إعادة ضبط',
+    'fr': 'Réinitialiser',
+    'de': 'Zurücksetzen',
+    'es': 'Reiniciar',
+    'id': 'Atur Ulang',
+    'ms': 'Tetapkan Semula',
+    'ur': 'دوبارہ ترتیب دیں',
+    'ru': 'Сбросить',
+  };
+
+  static const Map<String, String> continueAction = {
+    'tr': 'Devam Et',
+    'en': 'Continue',
+    'ar': 'متابعة',
+    'fr': 'Continuer',
+    'de': 'Weiter',
+    'es': 'Continuar',
+    'id': 'Lanjutkan',
+    'ms': 'Teruskan',
+    'ur': 'جاری رکھیں',
+    'ru': 'Продолжить',
+  };
+
+  static const Map<String, String> target = {
+    'tr': 'Hedef',
+    'en': 'Target',
+    'ar': 'الهدف',
+    'fr': 'Objectif',
+    'de': 'Ziel',
+    'es': 'Objetivo',
+    'id': 'Target',
+    'ms': 'Sasaran',
+    'ur': 'ہدف',
+    'ru': 'Цель',
+  };
+
+  static const Map<String, String> remaining = {
+    'tr': 'Kalan',
+    'en': 'Remaining',
+    'ar': 'المتبقي',
+    'fr': 'Restant',
+    'de': 'Verbleibend',
+    'es': 'Restante',
+    'id': 'Tersisa',
+    'ms': 'Baki',
+    'ur': 'باقی',
+    'ru': 'Осталось',
+  };
+
 }

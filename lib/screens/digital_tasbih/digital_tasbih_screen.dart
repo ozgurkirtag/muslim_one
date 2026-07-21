@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart';
+import '../../core/localization/app_localization.dart';
 import '../../widgets/banner_ad_widget.dart';
 
 class DigitalTasbihScreen extends StatefulWidget {
@@ -174,7 +175,10 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
               style: TextStyle(color: _textPrimary),
             ),
             action: SnackBarAction(
-              label: 'Continue',
+              label: AppLocalization.text(
+                context,
+                AppLocalization.continueAction,
+              ),
               textColor: _goldLight,
               onPressed: () {},
             ),
@@ -378,7 +382,12 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                 foregroundColor: Colors.black,
               ),
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Reset'),
+              child: Text(
+                AppLocalization.text(
+                  context,
+                  AppLocalization.reset,
+                ),
+              ),
             ),
           ],
         );
@@ -428,13 +437,19 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
         foregroundColor: _textPrimary,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          'Digital Tasbih',
-          style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 0.3),
+        title: Text(
+          AppLocalization.text(
+            context,
+            AppLocalization.digitalTasbihTitle,
+          ),
+          style: const TextStyle(fontWeight: FontWeight.w700, letterSpacing: 0.3),
         ),
         actions: [
           IconButton(
-            tooltip: 'Reset',
+            tooltip: AppLocalization.text(
+              context,
+              AppLocalization.reset,
+            ),
             onPressed: _confirmReset,
             icon: const Icon(Icons.refresh_rounded),
           ),
@@ -499,9 +514,12 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'CURRENT DHIKR',
-                    style: TextStyle(
+                  Text(
+                    AppLocalization.text(
+                      context,
+                      AppLocalization.currentDhikr,
+                    ),
+                    style: const TextStyle(
                       color: _textSecondary,
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
@@ -545,9 +563,12 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
       ),
       child: Column(
         children: [
-          const Text(
-            'COUNT',
-            style: TextStyle(
+          Text(
+            AppLocalization.text(
+              context,
+              AppLocalization.tasbihCount,
+            ),
+            style: const TextStyle(
               color: _textSecondary,
               fontSize: 12,
               fontWeight: FontWeight.w700,
@@ -616,7 +637,10 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
         const Padding(
           padding: EdgeInsets.only(left: 2),
           child: Text(
-            'SELECT TARGET',
+            AppLocalization.text(
+              context,
+              AppLocalization.selectTarget,
+            ),
             style: TextStyle(
               color: _textSecondary,
               fontSize: 11,
@@ -670,7 +694,14 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
         size: 17,
         color: isCustom ? Colors.black : _goldLight,
       ),
-      label: Text(isCustom ? '$_target' : 'Custom'),
+      label: Text(
+        isCustom
+            ? '$_target'
+            : AppLocalization.text(
+                context,
+                AppLocalization.customTarget,
+              ),
+      ),
       onSelected: (_) => _showCustomTargetDialog(),
       backgroundColor: _surface,
       selectedColor: _gold,
@@ -725,7 +756,10 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                 Icon(Icons.touch_app_rounded, color: Colors.black, size: 46),
                 SizedBox(height: 8),
                 Text(
-                  'TAP',
+                  AppLocalization.text(
+                    context,
+                    AppLocalization.tap,
+                  ),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 24,
@@ -735,7 +769,10 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'to count',
+                  AppLocalization.text(
+                    context,
+                    AppLocalization.toCount,
+                  ),
                   style: TextStyle(
                     color: Colors.black87,
                     fontSize: 13,
@@ -758,7 +795,10 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
             icon: _vibrationEnabled
                 ? Icons.vibration_rounded
                 : Icons.phone_android_rounded,
-            label: 'Vibration',
+            label: AppLocalization.text(
+              context,
+              AppLocalization.vibration,
+            ),
             enabled: _vibrationEnabled,
             onTap: _toggleVibration,
           ),
@@ -769,7 +809,10 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
             icon: _soundEnabled
                 ? Icons.volume_up_rounded
                 : Icons.volume_off_rounded,
-            label: 'Sound',
+            label: AppLocalization.text(
+              context,
+              AppLocalization.sound,
+            ),
             enabled: _soundEnabled,
             onTap: _toggleSound,
           ),
@@ -778,7 +821,10 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
         Expanded(
           child: _buildControlButton(
             icon: Icons.refresh_rounded,
-            label: 'Reset',
+            label: AppLocalization.text(
+              context,
+              AppLocalization.reset,
+            ),
             enabled: false,
             onTap: _confirmReset,
           ),
