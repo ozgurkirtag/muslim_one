@@ -634,14 +634,14 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 2),
+        Padding(
+          padding: const EdgeInsets.only(left: 2),
           child: Text(
             AppLocalization.text(
               context,
               AppLocalization.selectTarget,
             ),
-            style: TextStyle(
+            style: const TextStyle(
               color: _textSecondary,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -750,11 +750,15 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
               color: Colors.black.withValues(alpha: 0.12),
               border: Border.all(color: Colors.black.withValues(alpha: 0.18)),
             ),
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.touch_app_rounded, color: Colors.black, size: 46),
-                SizedBox(height: 8),
+                const Icon(
+                  Icons.touch_app_rounded,
+                  color: Colors.black,
+                  size: 46,
+                ),
+                const SizedBox(height: 8),
                 Text(
                   AppLocalization.text(
                     context,
@@ -767,7 +771,7 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                     letterSpacing: 2.5,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   AppLocalization.text(
                     context,

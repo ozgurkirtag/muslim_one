@@ -41,7 +41,6 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
     _bannerAd = null;
     _loaded = false;
     _loading = true;
-    _errorText = null;
 
     final ad = BannerAd(
       adUnitId: _bannerId,
@@ -57,8 +56,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
           setState(() {
             _loaded = true;
             _loading = false;
-            _errorText = null;
-          });
+                  });
 
           debugPrint('Banner başarıyla yüklendi.');
         },
@@ -79,7 +77,6 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
             _bannerAd = null;
             _loaded = false;
             _loading = false;
-            _errorText = message;
           });
 
           _retryTimer = Timer(
