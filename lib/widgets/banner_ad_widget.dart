@@ -20,7 +20,6 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
 
   bool _loaded = false;
   bool _loading = false;
-  String? _errorText;
 
   @override
   void initState() {
