@@ -120,19 +120,14 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
 
     return Container(
       width: double.infinity,
-      constraints: const BoxConstraints(minHeight: 50),
+      height: 50,
       alignment: Alignment.center,
       color: Colors.black,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Text(
-        _loading
-            ? 'Reklam yükleniyor...'
-            : (_errorText ?? 'Reklam bekleniyor...'),
+        _loading ? 'Reklam yükleniyor...' : '',
         textAlign: TextAlign.center,
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
         style: const TextStyle(
-          color: Colors.white70,
+          color: Colors.white54,
           fontSize: 10,
         ),
       ),
