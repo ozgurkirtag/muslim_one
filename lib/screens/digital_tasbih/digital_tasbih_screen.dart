@@ -14,11 +14,19 @@ class DigitalTasbihScreen extends StatefulWidget {
     this.initialDhikrName = 'SubhanAllah',
     this.initialTarget = 33,
     this.startFresh = false,
+    this.enableCompletionMode = false,
+    this.completionId,
   });
 
   final String initialDhikrName;
   final int initialTarget;
   final bool startFresh;
+
+  /// Yalnızca Esmaül Hüsna ekranından açılan sayaçlarda kullanılır.
+  final bool enableCompletionMode;
+
+  /// Dil değişse bile her Esma'nın kaydının ayrı kalmasını sağlayan sabit kimlik.
+  final String? completionId;
 
   @override
   State<DigitalTasbihScreen> createState() => _DigitalTasbihScreenState();
@@ -39,12 +47,15 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
   static const String _soundKey = 'digital_tasbih_sound';
   static const String _vibrationKey = 'digital_tasbih_vibration';
   static const String _dhikrNameKey = 'digital_tasbih_dhikr_name';
+  static const String _completionKeyPrefix =
+      'digital_tasbih_esma_completion';
 
   final List<int> _presetTargets = const [33, 99, 100, 1000];
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   int _count = 0;
   int _target = 33;
+  int _completionCount = 0;
   bool _soundEnabled = true;
   bool _vibrationEnabled = true;
   bool _isLoading = true;
@@ -62,6 +73,16 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
   int get _remaining {
     final remaining = _target - _count;
     return remaining < 0 ? 0 : remaining;
+  }
+
+  String get _completionStorageKey {
+    final rawId = widget.completionId ?? widget.initialDhikrName;
+    final safeId = rawId
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
+        .replaceAll(RegExp(r'^_+|_+$'), '');
+
+    return '${_completionKeyPrefix}_$safeId';
   }
 
   @override
@@ -93,7 +114,19 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
 
       _soundEnabled = preferences.getBool(_soundKey) ?? true;
       _vibrationEnabled = preferences.getBool(_vibrationKey) ?? true;
-      _targetMessageShown = _count >= _target;
+
+      if (widget.enableCompletionMode) {
+        _completionCount =
+            preferences.getInt(_completionStorageKey) ?? 0;
+        _count = 0;
+        _target = widget.initialTarget;
+        _dhikrName = widget.initialDhikrName;
+        _targetMessageShown = false;
+      } else {
+        _completionCount = 0;
+        _targetMessageShown = _count >= _target;
+      }
+
       _isLoading = false;
     });
 
@@ -105,18 +138,41 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
   Future<void> _saveSession() async {
     final preferences = await SharedPreferences.getInstance();
 
-    await Future.wait([
-      preferences.setInt(_countKey, _count),
-      preferences.setInt(_targetKey, _target),
+    final operations = <Future<bool>>[
       preferences.setBool(_soundKey, _soundEnabled),
       preferences.setBool(_vibrationKey, _vibrationEnabled),
-      preferences.setString(_dhikrNameKey, _dhikrName),
-    ]);
+    ];
+
+    if (widget.enableCompletionMode) {
+      operations.add(
+        preferences.setInt(
+          _completionStorageKey,
+          _completionCount,
+        ),
+      );
+    } else {
+      operations.addAll([
+        preferences.setInt(_countKey, _count),
+        preferences.setInt(_targetKey, _target),
+        preferences.setString(_dhikrNameKey, _dhikrName),
+      ]);
+    }
+
+    await Future.wait(operations);
   }
 
   Future<void> _incrementCount() async {
+    final completedNow =
+        widget.enableCompletionMode && (_count + 1 >= _target);
+
     setState(() {
-      _count++;
+      if (completedNow) {
+        _completionCount++;
+        _count = 0;
+        _targetMessageShown = false;
+      } else {
+        _count++;
+      }
     });
 
     if (_vibrationEnabled) {
@@ -139,7 +195,43 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
 
     await _saveSession();
 
-    if (_count >= _target && !_targetMessageShown && mounted) {
+    if (completedNow && mounted) {
+      if (_vibrationEnabled) {
+        unawaited(
+          Vibration.vibrate(
+            pattern: [0, 120, 60, 220],
+            intensities: [0, 210, 0, 255],
+          ),
+        );
+      }
+
+      final isTurkish =
+          Localizations.localeOf(context).languageCode == 'tr';
+
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            backgroundColor: _surfaceSoft,
+            behavior: SnackBarBehavior.floating,
+            content: Text(
+              isTurkish
+                  ? 'Allah kabul etsin. $_dhikrName zikrini '
+                      '$_completionCount kez tamamladınız.'
+                  : 'May Allah accept your dhikr. You completed '
+                      '$_dhikrName $_completionCount times.',
+              style: const TextStyle(color: _textPrimary),
+            ),
+          ),
+        );
+
+      return;
+    }
+
+    if (!widget.enableCompletionMode &&
+        _count >= _target &&
+        !_targetMessageShown &&
+        mounted) {
       _targetMessageShown = true;
 
       if (_vibrationEnabled) {
@@ -469,8 +561,14 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                           _buildDhikrNameCard(),
                           const SizedBox(height: 18),
                           _buildCounterCard(),
-                          const SizedBox(height: 18),
-                          _buildTargetSelector(),
+                          if (widget.enableCompletionMode) ...[
+                            const SizedBox(height: 12),
+                            _buildCompletionSummary(),
+                          ],
+                          if (!widget.enableCompletionMode) ...[
+                            const SizedBox(height: 18),
+                            _buildTargetSelector(),
+                          ],
                           const SizedBox(height: 18),
                           _buildTapButton(),
                           const SizedBox(height: 18),
@@ -489,7 +587,9 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
   Widget _buildDhikrNameCard() {
     return InkWell(
       borderRadius: BorderRadius.circular(18),
-      onTap: _showDhikrNameDialog,
+      onTap: widget.enableCompletionMode
+          ? null
+          : _showDhikrNameDialog,
       child: Ink(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -538,7 +638,12 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                 ],
               ),
             ),
-            const Icon(Icons.edit_rounded, color: _textSecondary, size: 20),
+            if (!widget.enableCompletionMode)
+              const Icon(
+                Icons.edit_rounded,
+                color: _textSecondary,
+                size: 20,
+              ),
           ],
         ),
       ),
@@ -624,6 +729,130 @@ class _DigitalTasbihScreenState extends State<DigitalTasbihScreen> {
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _resetCompletionCount() async {
+    final isTurkish =
+        Localizations.localeOf(context).languageCode == 'tr';
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor: _surface,
+          title: Text(
+            isTurkish
+                ? 'Tamamlama sayısını sıfırla'
+                : 'Reset completion count',
+            style: const TextStyle(color: _textPrimary),
+          ),
+          content: Text(
+            isTurkish
+                ? '$_dhikrName için kaydedilen tamamlama sayısı '
+                    'sıfırlansın mı?'
+                : 'Reset the saved completion count for $_dhikrName?',
+            style: const TextStyle(color: _textSecondary),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () =>
+                  Navigator.of(dialogContext).pop(false),
+              child: Text(
+                isTurkish ? 'Vazgeç' : 'Cancel',
+                style: const TextStyle(color: _textSecondary),
+              ),
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: _gold,
+                foregroundColor: Colors.black,
+              ),
+              onPressed: () =>
+                  Navigator.of(dialogContext).pop(true),
+              child: Text(isTurkish ? 'Sıfırla' : 'Reset'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed != true) {
+      return;
+    }
+
+    setState(() {
+      _completionCount = 0;
+    });
+
+    await _saveSession();
+  }
+
+  Widget _buildCompletionSummary() {
+    final isTurkish =
+        Localizations.localeOf(context).languageCode == 'tr';
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(18, 16, 18, 10),
+      decoration: BoxDecoration(
+        color: _surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: _goldDark.withValues(alpha: 0.75),
+        ),
+      ),
+      child: Column(
+        children: [
+          Text(
+            isTurkish ? 'TAMAMLAMA SAYISI' : 'COMPLETION COUNT',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: _textSecondary,
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.2,
+            ),
+          ),
+          const SizedBox(height: 7),
+          Text(
+            '$_completionCount',
+            style: const TextStyle(
+              color: _goldLight,
+              fontSize: 32,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            isTurkish
+                ? '$_dhikrName zikrini $_completionCount kez tamamladınız'
+                : 'You completed $_dhikrName $_completionCount times',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: _textSecondary,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          TextButton.icon(
+            onPressed: _completionCount == 0
+                ? null
+                : _resetCompletionCount,
+            icon: const Icon(Icons.restart_alt_rounded, size: 18),
+            label: Text(
+              isTurkish
+                  ? 'Tamamlama sayısını sıfırla'
+                  : 'Reset completion count',
+            ),
+            style: TextButton.styleFrom(
+              foregroundColor: _goldLight,
+              disabledForegroundColor:
+                  _textSecondary.withValues(alpha: 0.45),
+            ),
           ),
         ],
       ),

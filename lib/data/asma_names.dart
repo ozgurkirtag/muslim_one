@@ -59,12 +59,76 @@ const AsmaName featuredAllahName = AsmaName(
 );
 
 const Map<String, int> _recommendedCountOverrides = {
-  "Al-Bari'": 129,
+  // Geleneksel kullanımdaki özel değerler.
+  "Al-Bari'": 214,
   'Al-Fattah': 489,
 };
 
-int? _recommendedCountFor(String transliteration) {
-  return _recommendedCountOverrides[transliteration];
+const Map<String, int> _abjadValues = {
+  'ا': 1,
+  'أ': 1,
+  'إ': 1,
+  'آ': 1,
+  'ء': 1,
+  'ؤ': 1,
+  'ئ': 10,
+  'ب': 2,
+  'ج': 3,
+  'د': 4,
+  'ه': 5,
+  'ة': 5,
+  'و': 6,
+  'ز': 7,
+  'ح': 8,
+  'ط': 9,
+  'ي': 10,
+  'ى': 10,
+  'ك': 20,
+  'ل': 30,
+  'م': 40,
+  'ن': 50,
+  'س': 60,
+  'ع': 70,
+  'ف': 80,
+  'ص': 90,
+  'ق': 100,
+  'ر': 200,
+  'ش': 300,
+  'ت': 400,
+  'ث': 500,
+  'خ': 600,
+  'ذ': 700,
+  'ض': 800,
+  'ظ': 900,
+  'غ': 1000,
+};
+
+int _calculateAbjadCount(String arabicName) {
+  var value = arabicName
+      .replaceAll(RegExp(r'[\u064B-\u065F\u0670]'), '')
+      .trim();
+
+  // "Allah" ismi kendi yazılışıyla hesaplanır: 66.
+  // Diğer Esmalarda baştaki El/Al takısı hesaba katılmaz.
+  if (value != 'الله' && value.startsWith('ال')) {
+    value = value.substring(2);
+  }
+
+  var total = 0;
+
+  for (final character in value.split('')) {
+    total += _abjadValues[character] ?? 0;
+  }
+
+  return total > 0 ? total : 99;
+}
+
+int _recommendedCountFor(
+  String transliteration,
+  String arabicName,
+) {
+  return _recommendedCountOverrides[transliteration] ??
+      _calculateAbjadCount(arabicName);
 }
 
 
@@ -93,7 +157,10 @@ final List<AsmaName> asmaNames = (() {
       meanings: {
         for (final entry in localized.entries) entry.key: entry.value[index],
       },
-      recommendedCount: _recommendedCountFor(latin[index]),
+      recommendedCount: _recommendedCountFor(
+        latin[index],
+        arabic[index],
+      ),
     );
   }, growable: false);
 })();

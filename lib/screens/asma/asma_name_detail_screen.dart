@@ -121,6 +121,8 @@ class AsmaNameDetailScreen extends StatelessWidget {
                   initialDhikrName: name.dhikrText(context),
                   initialTarget: name.recommendedCount ?? 99,
                   startFresh: true,
+                  enableCompletionMode: true,
+                  completionId: name.transliteration,
                 ),
               ),
             ),

@@ -309,6 +309,31 @@ class _NameCard extends StatelessWidget {
                   height: 1.3,
                 ),
               ),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 9,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.gold.withValues(alpha: 0.11),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: AppColors.goldDark.withValues(alpha: 0.70),
+                  ),
+                ),
+                child: Text(
+                  AppLocalization.languageCode(context) == 'tr'
+                      ? 'Önerilen: ${name.recommendedCount ?? 99}'
+                      : 'Suggested: ${name.recommendedCount ?? 99}',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: AppColors.goldLight,
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
               const Spacer(),
             ],
           ),
