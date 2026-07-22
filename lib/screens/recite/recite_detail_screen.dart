@@ -6,6 +6,7 @@ import '../../models/dhikr_program.dart';
 import '../digital_tasbih/digital_tasbih_screen.dart';
 
 import '../../widgets/banner_ad_widget.dart';
+
 class ReciteDetailScreen extends StatelessWidget {
   const ReciteDetailScreen({required this.program, super.key});
 
@@ -20,8 +21,7 @@ class ReciteDetailScreen extends StatelessWidget {
     // Uzun dualar yalnızca okuma ekranında gösterilir.
     final pronunciation = content.pronunciation.resolve(context).trim();
     final isShortDhikr =
-        content.arabic.trim().length <= 55 &&
-        pronunciation.length <= 65;
+        content.arabic.trim().length <= 55 && pronunciation.length <= 65;
 
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
@@ -32,37 +32,39 @@ class ReciteDetailScreen extends StatelessWidget {
           children: [
             if (isShortDhikr)
               SafeArea(
-          minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
-          child: FilledButton.icon(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => DigitalTasbihScreen(
-                    initialDhikrName: content.name.resolve(context),
-                    initialTarget: content.target,
-                    startFresh: true,
+                minimum: const EdgeInsets.fromLTRB(20, 8, 20, 18),
+                child: FilledButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => DigitalTasbihScreen(
+                          initialDhikrName: content.pronunciation.resolve(
+                            context,
+                          ),
+                          initialTarget: content.target,
+                          startFresh: true,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.touch_app_rounded),
+                  label: Text(
+                    AppLocalization.text(context, AppLocalization.startDhikr),
+                  ),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(56),
+                    backgroundColor: AppColors.gold,
+                    foregroundColor: Colors.black,
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(17),
+                    ),
                   ),
                 ),
-              );
-            },
-            icon: const Icon(Icons.touch_app_rounded),
-            label: Text(
-              AppLocalization.text(context, AppLocalization.startDhikr),
-            ),
-            style: FilledButton.styleFrom(
-              minimumSize: const Size.fromHeight(56),
-              backgroundColor: AppColors.gold,
-              foregroundColor: Colors.black,
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(17),
-              ),
-            ),
-          ),
-        ),
             const BannerAdWidget(),
           ],
         ),
@@ -127,8 +129,7 @@ class ReciteDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            if (isShortDhikr)
-              _TargetCard(target: content.target),
+            if (isShortDhikr) _TargetCard(target: content.target),
           ],
         ),
       ),

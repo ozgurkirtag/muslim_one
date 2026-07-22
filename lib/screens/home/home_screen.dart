@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_strings.dart';
 import '../../core/localization/app_localization.dart';
 import '../../core/routes/app_routes.dart';
 
 import '../../widgets/banner_ad_widget.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -217,38 +217,11 @@ class HomeScreen extends StatelessWidget {
             slivers: [
               const SliverPadding(
                 padding: EdgeInsets.fromLTRB(20, 22, 20, 12),
-                sliver: SliverToBoxAdapter(child: _Header()),
+                sliver: SliverToBoxAdapter(child: _HomeGreetingCard()),
               ),
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-                sliver: SliverToBoxAdapter(
-                  child: _DailyReminderCard(
-                    title: _text(context, const {
-                      'tr': 'Bugünün Hatırlatması',
-                      'en': 'Today’s Reminder',
-                      'ar': 'تذكير اليوم',
-                      'fr': 'Rappel du jour',
-                      'de': 'Heutige Erinnerung',
-                      'es': 'Recordatorio de hoy',
-                      'id': 'Pengingat Hari Ini',
-                      'ms': 'Peringatan Hari Ini',
-                      'ur': 'آج کی یاد دہانی',
-                      'ru': 'Напоминание дня',
-                    }),
-                    reminder: _text(context, const {
-                      'tr': 'Şüphesiz güçlükle beraber bir kolaylık vardır.',
-                      'en': 'Indeed, with hardship comes ease.',
-                      'ar': 'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا',
-                      'fr': 'Avec la difficulté vient certes la facilité.',
-                      'de': 'Mit der Erschwernis kommt Erleichterung.',
-                      'es': 'Con la dificultad viene la facilidad.',
-                      'id': 'Sesungguhnya bersama kesulitan ada kemudahan.',
-                      'ms': 'Sesungguhnya bersama kesukaran ada kemudahan.',
-                      'ur': 'بے شک مشکل کے ساتھ آسانی ہے۔',
-                      'ru': 'Воистину, за тягостью приходит облегчение.',
-                    }),
-                  ),
-                ),
+                sliver: SliverToBoxAdapter(child: const _DailyVerseCard()),
               ),
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
@@ -268,99 +241,381 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header();
+class _HomeGreetingCard extends StatelessWidget {
+  const _HomeGreetingCard();
+
+  String _text(BuildContext context, Map<String, String> values) {
+    return AppLocalization.text(context, values);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final tagline = AppLocalization.text(context, const {
-      'tr': 'Bir Müslümanın ihtiyaç duyduğu her şey tek uygulamada.',
-      'en': 'Everything a Muslim needs in one app.',
-      'ar': 'كل ما يحتاجه المسلم في تطبيق واحد.',
-      'fr': 'Tout ce dont un musulman a besoin dans une seule application.',
-      'de': 'Alles, was ein Muslim braucht, in einer App.',
-      'es': 'Todo lo que un musulmán necesita en una sola aplicación.',
-      'id': 'Semua kebutuhan Muslim dalam satu aplikasi.',
-      'ms': 'Segala keperluan Muslim dalam satu aplikasi.',
-      'ur': 'مسلمان کی ہر ضرورت ایک ہی ایپ میں۔',
-      'ru': 'Всё необходимое мусульманину в одном приложении.',
+    final greeting = _text(context, const {
+      'tr': 'Selamün Aleyküm',
+      'en': 'Assalamu Alaikum',
+      'ar': 'السلام عليكم',
+      'fr': 'Assalamu Alaikum',
+      'de': 'Assalamu Alaikum',
+      'es': 'Assalamu Alaikum',
+      'id': 'Assalamu Alaikum',
+      'ms': 'Assalamualaikum',
+      'ur': 'السلام علیکم',
+      'ru': 'Ассаляму алейкум',
     });
 
-    return Container(
-      padding: const EdgeInsets.all(22),
-      decoration: BoxDecoration(
+    final message = _text(context, const {
+      'tr': 'Allah ibadetlerinizi kabul etsin.',
+      'en': 'May Allah accept your worship.',
+      'ar': 'تقبل الله طاعاتكم',
+      'fr': 'Qu’Allah accepte vos adorations.',
+      'de': 'Möge Allah deine Gebete annehmen.',
+      'es': 'Que Allah acepte tus actos de adoración.',
+      'id': 'Semoga Allah menerima ibadahmu.',
+      'ms': 'Semoga Allah menerima ibadah anda.',
+      'ur': 'اللہ آپ کی عبادات قبول فرمائے۔',
+      'ru': 'Пусть Аллах примет ваше поклонение.',
+    });
+
+    final prayerTimes = _text(context, const {
+      'tr': 'Namaz Vakitleri',
+      'en': 'Prayer Times',
+      'ar': 'مواقيت الصلاة',
+      'fr': 'Horaires de prière',
+      'de': 'Gebetszeiten',
+      'es': 'Horarios de oración',
+      'id': 'Waktu Salat',
+      'ms': 'Waktu Solat',
+      'ur': 'نماز کے اوقات',
+      'ru': 'Время молитв',
+    });
+
+    final action = _text(context, const {
+      'tr': 'Bugünün namaz vakitlerini görüntüle',
+      'en': 'View today’s prayer times',
+      'ar': 'عرض مواقيت الصلاة لليوم',
+      'fr': 'Voir les horaires de prière du jour',
+      'de': 'Heutige Gebetszeiten anzeigen',
+      'es': 'Ver los horarios de oración de hoy',
+      'id': 'Lihat waktu salat hari ini',
+      'ms': 'Lihat waktu solat hari ini',
+      'ur': 'آج کے نماز کے اوقات دیکھیں',
+      'ru': 'Посмотреть время молитв на сегодня',
+    });
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => Navigator.of(context).pushNamed(AppRoutes.prayerTimes),
         borderRadius: BorderRadius.circular(28),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.surfaceSoft, AppColors.surface],
-        ),
-        border: Border.all(color: AppColors.goldDark),
-      ),
-      child: Row(
-        children: [
-          const _LogoMark(),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  AppStrings.appName,
-                  style: TextStyle(
-                    fontSize: 29,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  tagline,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    height: 1.35,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
+        child: Ink(
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(28),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppColors.surfaceSoft, AppColors.surface],
             ),
+            border: Border.all(color: AppColors.goldDark),
           ),
-        ],
+          child: Column(
+            children: [
+              Container(
+                width: 62,
+                height: 62,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.background,
+                  border: Border.all(color: AppColors.gold, width: 1.4),
+                ),
+                child: const Icon(
+                  Icons.nightlight_round,
+                  color: AppColors.goldLight,
+                  size: 34,
+                ),
+              ),
+              const SizedBox(height: 14),
+              Text(
+                greeting,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 7),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 14,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 19),
+              Container(
+                height: 1,
+                color: AppColors.goldDark.withValues(alpha: 0.7),
+              ),
+              const SizedBox(height: 17),
+              Row(
+                children: [
+                  Container(
+                    width: 45,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: AppColors.gold.withValues(alpha: 0.10),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: AppColors.goldDark),
+                    ),
+                    child: const Icon(
+                      Icons.schedule_rounded,
+                      color: AppColors.goldLight,
+                    ),
+                  ),
+                  const SizedBox(width: 13),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          prayerTimes,
+                          style: const TextStyle(
+                            color: AppColors.goldLight,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          action,
+                          style: const TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 12.5,
+                            height: 1.3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppColors.gold,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-class _LogoMark extends StatelessWidget {
-  const _LogoMark();
+class _DailyVerseCard extends StatelessWidget {
+  const _DailyVerseCard();
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 58,
-      height: 58,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: AppColors.gold, width: 1.5),
-        color: AppColors.background,
-      ),
-      child: const Icon(
-        Icons.nightlight_round,
-        color: AppColors.goldLight,
-        size: 31,
-      ),
-    );
+  static const List<_DailyVerse> _verses = [
+    _DailyVerse(
+      arabic: 'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا',
+      reference: '94:6',
+      translations: {
+        'tr': 'Şüphesiz güçlükle beraber bir kolaylık vardır.',
+        'en': 'Indeed, with hardship comes ease.',
+        'ar': 'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا',
+        'fr': 'Avec la difficulté vient certes la facilité.',
+        'de': 'Wahrlich, mit der Erschwernis kommt Erleichterung.',
+        'es': 'Ciertamente, con la dificultad viene la facilidad.',
+        'id': 'Sesungguhnya bersama kesulitan ada kemudahan.',
+        'ms': 'Sesungguhnya bersama kesukaran ada kemudahan.',
+        'ur': 'بے شک مشکل کے ساتھ آسانی ہے۔',
+        'ru': 'Воистину, с тягостью приходит облегчение.',
+      },
+    ),
+    _DailyVerse(
+      arabic: 'فَاذْكُرُونِي أَذْكُرْكُمْ',
+      reference: '2:152',
+      translations: {
+        'tr': 'Beni anın ki ben de sizi anayım.',
+        'en': 'Remember Me; I will remember you.',
+        'ar': 'فَاذْكُرُونِي أَذْكُرْكُمْ',
+        'fr': 'Souvenez-vous de Moi, Je Me souviendrai de vous.',
+        'de': 'Gedenkt Meiner, dann gedenke Ich eurer.',
+        'es': 'Recordadme y Yo os recordaré.',
+        'id': 'Ingatlah kepada-Ku, niscaya Aku ingat kepadamu.',
+        'ms': 'Ingatlah kepada-Ku, nescaya Aku mengingati kamu.',
+        'ur': 'تم مجھے یاد کرو، میں تمہیں یاد کروں گا۔',
+        'ru': 'Поминайте Меня, и Я буду помнить о вас.',
+      },
+    ),
+    _DailyVerse(
+      arabic: 'إِنَّ اللَّهَ مَعَ الصَّابِرِينَ',
+      reference: '2:153',
+      translations: {
+        'tr': 'Şüphesiz Allah sabredenlerle beraberdir.',
+        'en': 'Indeed, Allah is with the patient.',
+        'ar': 'إِنَّ اللَّهَ مَعَ الصَّابِرِينَ',
+        'fr': 'Allah est avec ceux qui patientent.',
+        'de': 'Gewiss, Allah ist mit den Geduldigen.',
+        'es': 'Ciertamente, Allah está con los pacientes.',
+        'id': 'Sesungguhnya Allah bersama orang-orang yang sabar.',
+        'ms': 'Sesungguhnya Allah bersama orang-orang yang sabar.',
+        'ur': 'بے شک اللہ صبر کرنے والوں کے ساتھ ہے۔',
+        'ru': 'Воистину, Аллах — с терпеливыми.',
+      },
+    ),
+    _DailyVerse(
+      arabic: 'لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ',
+      reference: '39:53',
+      translations: {
+        'tr': 'Allah’ın rahmetinden ümit kesmeyin.',
+        'en': 'Do not lose hope in the mercy of Allah.',
+        'ar': 'لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ',
+        'fr': 'Ne désespérez pas de la miséricorde d’Allah.',
+        'de': 'Verliert nicht die Hoffnung auf Allahs Barmherzigkeit.',
+        'es': 'No desesperéis de la misericordia de Allah.',
+        'id': 'Janganlah berputus asa dari rahmat Allah.',
+        'ms': 'Janganlah berputus asa daripada rahmat Allah.',
+        'ur': 'اللہ کی رحمت سے ناامید نہ ہو۔',
+        'ru': 'Не отчаивайтесь в милости Аллаха.',
+      },
+    ),
+    _DailyVerse(
+      arabic: 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ',
+      reference: '13:28',
+      translations: {
+        'tr': 'Kalpler ancak Allah’ı anmakla huzur bulur.',
+        'en': 'Surely, hearts find comfort in the remembrance of Allah.',
+        'ar': 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ',
+        'fr': 'Les cœurs se tranquillisent par l’évocation d’Allah.',
+        'de': 'Im Gedenken Allahs finden die Herzen Ruhe.',
+        'es': 'Los corazones encuentran sosiego en el recuerdo de Allah.',
+        'id': 'Hanya dengan mengingat Allah hati menjadi tenteram.',
+        'ms': 'Dengan mengingati Allah, hati menjadi tenteram.',
+        'ur': 'اللہ کے ذکر سے دلوں کو اطمینان ملتا ہے۔',
+        'ru': 'Поминанием Аллаха утешаются сердца.',
+      },
+    ),
+    _DailyVerse(
+      arabic: 'وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ',
+      reference: '65:3',
+      translations: {
+        'tr': 'Kim Allah’a tevekkül ederse O, ona yeter.',
+        'en': 'Whoever relies upon Allah, He is sufficient for them.',
+        'ar': 'وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ',
+        'fr': 'Quiconque place sa confiance en Allah, Il lui suffit.',
+        'de': 'Wer auf Allah vertraut, dem ist Er genug.',
+        'es': 'A quien confía en Allah, Él le basta.',
+        'id': 'Barang siapa bertawakal kepada Allah, Dia akan mencukupinya.',
+        'ms': 'Sesiapa bertawakal kepada Allah, Dia mencukupinya.',
+        'ur': 'جو اللہ پر بھروسہ کرے تو وہ اس کے لیے کافی ہے۔',
+        'ru': 'Тому, кто уповает на Аллаха, достаточно Его.',
+      },
+    ),
+    _DailyVerse(
+      arabic: 'إِنَّ رَبِّي قَرِيبٌ مُّجِيبٌ',
+      reference: '11:61',
+      translations: {
+        'tr': 'Şüphesiz Rabbim yakındır, dualara cevap verendir.',
+        'en': 'Indeed, my Lord is near and responsive.',
+        'ar': 'إِنَّ رَبِّي قَرِيبٌ مُّجِيبٌ',
+        'fr': 'Mon Seigneur est proche et Il répond.',
+        'de': 'Mein Herr ist nahe und erhört die Gebete.',
+        'es': 'Mi Señor está cerca y responde.',
+        'id': 'Sesungguhnya Tuhanku dekat dan mengabulkan doa.',
+        'ms': 'Sesungguhnya Tuhanku dekat dan memperkenankan doa.',
+        'ur': 'بے شک میرا رب قریب اور دعا قبول کرنے والا ہے۔',
+        'ru': 'Воистину, мой Господь близок и отвечает.',
+      },
+    ),
+    _DailyVerse(
+      arabic: 'وَقُل رَّبِّ زِدْنِي عِلْمًا',
+      reference: '20:114',
+      translations: {
+        'tr': 'Rabbim, ilmimi artır de.',
+        'en': 'My Lord, increase me in knowledge.',
+        'ar': 'وَقُل رَّبِّ زِدْنِي عِلْمًا',
+        'fr': 'Seigneur, augmente-moi en savoir.',
+        'de': 'Mein Herr, mehre mein Wissen.',
+        'es': 'Señor mío, aumenta mi conocimiento.',
+        'id': 'Ya Tuhanku, tambahkanlah ilmu kepadaku.',
+        'ms': 'Wahai Tuhanku, tambahkanlah ilmuku.',
+        'ur': 'اے میرے رب، میرے علم میں اضافہ فرما۔',
+        'ru': 'Господи, приумножь мои знания.',
+      },
+    ),
+    _DailyVerse(
+      arabic: 'إِنَّ اللَّهَ يُحِبُّ الْمُتَوَكِّلِينَ',
+      reference: '3:159',
+      translations: {
+        'tr': 'Şüphesiz Allah tevekkül edenleri sever.',
+        'en': 'Indeed, Allah loves those who rely upon Him.',
+        'ar': 'إِنَّ اللَّهَ يُحِبُّ الْمُتَوَكِّلِينَ',
+        'fr': 'Allah aime ceux qui placent leur confiance en Lui.',
+        'de': 'Allah liebt diejenigen, die auf Ihn vertrauen.',
+        'es': 'Allah ama a quienes confían en Él.',
+        'id': 'Sesungguhnya Allah mencintai orang-orang yang bertawakal.',
+        'ms': 'Sesungguhnya Allah mengasihi orang-orang yang bertawakal.',
+        'ur': 'بے شک اللہ توکل کرنے والوں سے محبت کرتا ہے۔',
+        'ru': 'Воистину, Аллах любит уповающих.',
+      },
+    ),
+    _DailyVerse(
+      arabic: 'وَاللَّهُ خَيْرُ الْحَافِظِينَ',
+      reference: '12:64',
+      translations: {
+        'tr': 'Allah koruyanların en hayırlısıdır.',
+        'en': 'Allah is the best guardian.',
+        'ar': 'وَاللَّهُ خَيْرُ الْحَافِظِينَ',
+        'fr': 'Allah est le meilleur gardien.',
+        'de': 'Allah ist der beste Beschützer.',
+        'es': 'Allah es el mejor protector.',
+        'id': 'Allah adalah penjaga yang terbaik.',
+        'ms': 'Allah ialah sebaik-baik penjaga.',
+        'ur': 'اللہ سب سے بہتر حفاظت کرنے والا ہے۔',
+        'ru': 'Аллах — лучший Хранитель.',
+      },
+    ),
+  ];
+
+  String _text(BuildContext context, Map<String, String> values) {
+    return AppLocalization.text(context, values);
   }
-}
-
-class _DailyReminderCard extends StatelessWidget {
-  const _DailyReminderCard({required this.title, required this.reminder});
-
-  final String title;
-  final String reminder;
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final dayOfYear = now.difference(DateTime(now.year, 1, 1)).inDays;
+    final verse = _verses[dayOfYear % _verses.length];
+
+    final title = _text(context, const {
+      'tr': 'Günün Ayeti',
+      'en': 'Verse of the Day',
+      'ar': 'آية اليوم',
+      'fr': 'Verset du jour',
+      'de': 'Vers des Tages',
+      'es': 'Versículo del día',
+      'id': 'Ayat Hari Ini',
+      'ms': 'Ayat Hari Ini',
+      'ur': 'آج کی آیت',
+      'ru': 'Аят дня',
+    });
+
+    final quran = _text(context, const {
+      'tr': 'Kur’an',
+      'en': 'Quran',
+      'ar': 'القرآن',
+      'fr': 'Coran',
+      'de': 'Koran',
+      'es': 'Corán',
+      'id': 'Al-Quran',
+      'ms': 'Al-Quran',
+      'ur': 'قرآن',
+      'ru': 'Коран',
+    });
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -369,12 +624,12 @@ class _DailyReminderCard extends StatelessWidget {
         border: Border.all(color: AppColors.goldDark, width: 0.8),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
               const Icon(
-                Icons.auto_awesome_rounded,
+                Icons.menu_book_rounded,
                 color: AppColors.goldLight,
                 size: 20,
               ),
@@ -389,25 +644,55 @@ class _DailyReminderCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 17),
           Text(
-            reminder,
+            verse.arabic,
+            textAlign: TextAlign.center,
+            textDirection: TextDirection.rtl,
             style: const TextStyle(
-              color: AppColors.textPrimary,
-              fontSize: 18,
+              color: AppColors.goldLight,
+              fontSize: 23,
               fontWeight: FontWeight.w600,
-              height: 1.4,
+              height: 1.8,
             ),
           ),
-          const SizedBox(height: 8),
-          const Text(
-            'Quran 94:6',
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+          const SizedBox(height: 13),
+          Text(
+            _text(context, verse.translations),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 11),
+          Text(
+            '$quran ${verse.reference}',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+class _DailyVerse {
+  const _DailyVerse({
+    required this.arabic,
+    required this.reference,
+    required this.translations,
+  });
+
+  final String arabic;
+  final String reference;
+  final Map<String, String> translations;
 }
 
 class _FeatureCard extends StatelessWidget {

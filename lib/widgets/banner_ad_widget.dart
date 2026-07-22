@@ -12,8 +12,7 @@ class BannerAdWidget extends StatefulWidget {
 }
 
 class _BannerAdWidgetState extends State<BannerAdWidget> {
-  static const String _bannerId =
-      'ca-app-pub-7094485651472008/9126553690';
+  static const String _bannerId = 'ca-app-pub-7094485651472008/9126553690';
 
   BannerAd? _bannerAd;
   Timer? _retryTimer;
@@ -56,7 +55,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
           setState(() {
             _loaded = true;
             _loading = false;
-                  });
+          });
 
           debugPrint('Banner başarıyla yüklendi.');
         },
@@ -79,10 +78,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
             _loading = false;
           });
 
-          _retryTimer = Timer(
-            const Duration(seconds: 15),
-            _loadBanner,
-          );
+          _retryTimer = Timer(const Duration(seconds: 15), _loadBanner);
         },
       ),
     );
@@ -114,19 +110,6 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
       );
     }
 
-    return Container(
-      width: double.infinity,
-      height: 50,
-      alignment: Alignment.center,
-      color: Colors.black,
-      child: Text(
-        _loading ? 'Reklam yükleniyor...' : '',
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Colors.white54,
-          fontSize: 10,
-        ),
-      ),
-    );
+    return const SizedBox.shrink();
   }
 }
